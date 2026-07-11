@@ -5,7 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-const DEFAULT_BASE_REF = 'origin/staging';
+// This repo's trunk is origin/main (upstream FreeCut used origin/staging).
+const DEFAULT_BASE_REF = 'origin/main';
 const FALLOW_PACKAGE = 'fallow@2.89.0';
 
 function getBaseRef() {

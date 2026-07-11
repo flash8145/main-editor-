@@ -106,11 +106,6 @@
       "reason": "Dynamically imported by the scene detection loader."
     },
     {
-      "path": "src/infrastructure/storage/index.ts",
-      "exportName": "saveExportFile",
-      "reason": "Re-exported storage API reached by the render queue dynamic import."
-    },
-    {
       "path": "src/infrastructure/storage/workspace-fs/ai-outputs/index.ts",
       "exportName": "AI_OUTPUT_SCHEMA_VERSION",
       "reason": "Intentional AI-output workspace API surface covered by storage tests."
@@ -129,6 +124,466 @@
       "path": "src/shared/logging/preview-trace.ts",
       "exportName": "getPreviewTraceEvents",
       "reason": "Called by project debug utilities through the preview-trace namespace."
+    },
+    {
+      "path": "src/components/ui/popover.tsx",
+      "exportName": "PopoverAnchor",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/config/hotkeys.ts",
+      "exportName": "HOTKEY_DESCRIPTIONS",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/agent-service.ts",
+      "exportName": "getAgentAdapter",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/agent-service.ts",
+      "exportName": "planRequest",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/agent-service.ts",
+      "exportName": "runStep",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/agent-store.ts",
+      "exportName": "useAgentStore",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/index.ts",
+      "exportName": "useAgentStore",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/index.ts",
+      "exportName": "buildToolCatalog",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/index.ts",
+      "exportName": "callMcpTool",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/index.ts",
+      "exportName": "getEditorTool",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/index.ts",
+      "exportName": "listEditorTools",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/index.ts",
+      "exportName": "listMcpTools",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/prompt.ts",
+      "exportName": "buildSystemPrompt",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/prompt.ts",
+      "exportName": "buildMessages",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/prompt.ts",
+      "exportName": "parsePlan",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/timeline-context.ts",
+      "exportName": "buildTimelineContext",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/clip-refs.ts",
+      "exportName": "resolveClipRef",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "buildToolCatalog",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "getEditorTool",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "listEditorTools",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "buildClipRefs",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "resolveClipRef",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "resolveClipRefs",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "resolveItemRef",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "resolveTargetItems",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "callMcpTool",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/agent/tools/index.ts",
+      "exportName": "listMcpTools",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/components/mini-timeline/constants.ts",
+      "exportName": "MINI_TIMELINE_IO_HANDLE_COLOR",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/components/properties-sidebar/clip-panel/text-animation-presets.ts",
+      "exportName": "getTextAnimationFrameRange",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/deps/keyframes-contract.ts",
+      "exportName": "bakeMotionModifiersToKeyframes",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/deps/keyframes-contract.ts",
+      "exportName": "bakeAudioPulseToKeyframes",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/deps/keyframes-contract.ts",
+      "exportName": "TRIGGER_WAVE_MOTION_LAYER_LABEL",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/deps/keyframes-contract.ts",
+      "exportName": "createAudioPulseModulation",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/deps/keyframes-contract.ts",
+      "exportName": "buildTriggerWaveMotionLayerKeyframes",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/deps/keyframes-contract.ts",
+      "exportName": "createTriggerWaveMotionLayerEffects",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/editor/deps/timeline-contract.ts",
+      "exportName": "setEffectAudioPulse",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/export/deps/timeline-compositions-contract.ts",
+      "exportName": "getActiveCompositionId",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/export/deps/timeline-compositions.ts",
+      "exportName": "getActiveCompositionId",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/keyframes/utils/easing-presets.ts",
+      "exportName": "BEZIER_PRESETS",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/keyframes/utils/easing-presets.ts",
+      "exportName": "areBezierPointsEqual",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/keyframes/utils/effect-animatable-properties.ts",
+      "exportName": "isAnimatableGpuColorParam",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/keyframes/utils/trigger-wave-motion-layer.ts",
+      "exportName": "TRIGGER_WAVE_MOTION_LAYER_LABEL",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/keyframes/utils/trigger-wave-motion-layer.ts",
+      "exportName": "pulseEnvelope",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/lottie-browser/services/lottiefiles-api.ts",
+      "exportName": "LOTTIEFILES_LICENSE",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/media-library/transcription/transcription-engine.ts",
+      "exportName": "PARAKEET_MODEL",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/media-library/transcription/transcription-engine.ts",
+      "exportName": "PARAKEET_FALLBACK_WHISPER_MODEL",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/media-library/transcription/transcription-engine.ts",
+      "exportName": "PARAKEET_SUPPORTED_LANGUAGES",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/preview/hooks/use-preview-render-pump-controller.ts",
+      "exportName": "resolvePlaybackDomVideoElement",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/preview/utils/motion-path.ts",
+      "exportName": "canvasPointToPlayerPoint",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/preview/utils/preview-state-coordinator.ts",
+      "exportName": "getPreviewRuntimeSnapshot",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/preview/utils/preview-state-coordinator.ts",
+      "exportName": "getPreviewRuntimeStateFromPlaybackState",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/preview/utils/source-media-sync.ts",
+      "exportName": "shouldResyncPlayingMedia",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/timeline/contracts/editor.ts",
+      "exportName": "setEffectAudioPulse",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/timeline/deps/keyframes-contract.ts",
+      "exportName": "BEZIER_PRESETS",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/timeline/deps/keyframes-contract.ts",
+      "exportName": "areBezierPointsEqual",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/timeline/deps/keyframes-contract.ts",
+      "exportName": "findMatchingBezierPreset",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/timeline/deps/keyframes-contract.ts",
+      "exportName": "clampBezierValue",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/timeline/deps/keyframes-contract.ts",
+      "exportName": "clampSpringValue",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/features/timeline/stores/actions/motion-modifier-actions.ts",
+      "exportName": "setEffectAudioPulse",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/analysis/captioning/registry.ts",
+      "exportName": "DEFAULT_MEDIA_CAPTIONING_PROVIDER_ID",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/analysis/captioning/registry.ts",
+      "exportName": "mediaCaptioningProviderRegistry",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/analysis/verification/registry.ts",
+      "exportName": "DEFAULT_SCENE_VERIFICATION_PROVIDER_ID",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/analysis/verification/registry.ts",
+      "exportName": "getDefaultSceneVerificationProvider",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/analysis/verification/registry.ts",
+      "exportName": "getSceneVerificationModelLabel",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/analysis/verification/registry.ts",
+      "exportName": "getSceneVerificationModelOptions",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/audio/mic-recorder/devices.ts",
+      "exportName": "onAudioInputDevicesChanged",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/audio/mic-recorder/index.ts",
+      "exportName": "pickRecorderMimeType",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/audio/mic-recorder/index.ts",
+      "exportName": "buildAudioConstraints",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/audio/mic-recorder/index.ts",
+      "exportName": "createMicLevelMeter",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/audio/mic-recorder/index.ts",
+      "exportName": "onAudioInputDevicesChanged",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/audio/ui-sound/engine.ts",
+      "exportName": "disposeEngine",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/audio/ui-sound/index.ts",
+      "exportName": "disposeEngine",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/create-gemma-llm-worker.ts",
+      "exportName": "createGemmaLlmWorker",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/gemma-llm-adapter.ts",
+      "exportName": "gemmaLlmAdapter",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/index.ts",
+      "exportName": "DEFAULT_LLM_ADAPTER_ID",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/index.ts",
+      "exportName": "getDefaultLlmAdapter",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/index.ts",
+      "exportName": "getLlmAdapter",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/index.ts",
+      "exportName": "listLlmAdapters",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/llm-registry.ts",
+      "exportName": "DEFAULT_LLM_ADAPTER_ID",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/llm-registry.ts",
+      "exportName": "getDefaultLlmAdapter",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/llm-registry.ts",
+      "exportName": "getLlmAdapter",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/llm/llm-registry.ts",
+      "exportName": "listLlmAdapters",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/lottie/lottie-frame-provider.ts",
+      "exportName": "parseLottieFileBytes",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/lottie/lottie-frame-provider.ts",
+      "exportName": "parseLottieMetadata",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/infrastructure/lottie/lottie-frame-provider.ts",
+      "exportName": "ensureLottieWasm",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/shared/timeline/io-range/index.ts",
+      "exportName": "IO_HANDLE_WIDTH",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/shared/timeline/io-range/index.ts",
+      "exportName": "IO_HANDLE_COLOR",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/shared/timeline/io-range/index.ts",
+      "exportName": "computeIoGripWidth",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/shared/typography/text-motion/index.ts",
+      "exportName": "TEXT_MOTION_IN_PRESET_IDS",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/shared/typography/text-motion/index.ts",
+      "exportName": "TEXT_MOTION_OUT_PRESET_IDS",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/shared/typography/text-motion/index.ts",
+      "exportName": "TEXT_MOTION_LOOP_PRESET_IDS",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
+    },
+    {
+      "path": "src/shared/ui/ui-sound.ts",
+      "exportName": "useUiSound",
+      "reason": "Baseline snapshot (2026-07-11): pre-existing unfinished surface in the imported codebase (largely the in-progress editor agent feature). Re-review when wiring Phase B."
     }
   ]
 }

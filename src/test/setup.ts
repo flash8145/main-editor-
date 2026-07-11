@@ -1,3 +1,4 @@
+import './localstorage-shim'
 import '@testing-library/jest-dom'
 import { afterEach } from 'vite-plus/test'
 import '@/i18n'
