@@ -163,11 +163,11 @@ export const Toolbar = memo(function Toolbar({
       role="toolbar"
       aria-label={t('toolbar.ariaLabel')}
     >
-      <div className="flex items-center gap-2.5">
+      <div className="flex min-w-0 items-center gap-2.5">
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 flex-shrink-0"
           onClick={handleBackClick}
           data-tooltip={t('toolbar.backToProjects')}
           data-tooltip-side="right"
@@ -185,11 +185,11 @@ export const Toolbar = memo(function Toolbar({
 
         <Separator orientation="vertical" className="h-5" />
 
-        <div className="flex flex-col -space-y-0.5">
-          <h1 className="text-sm font-medium leading-none">
+        <div className="flex min-w-0 flex-col -space-y-0.5">
+          <h1 className="truncate text-sm font-medium leading-none">
             {project?.name || t('common.untitledProject')}
           </h1>
-          <span className="font-mono text-[11px] text-muted-foreground">
+          <span className="truncate font-mono text-[11px] text-muted-foreground">
             {t('toolbar.specsDetailed', {
               width: project?.width,
               height: project?.height,

@@ -187,8 +187,15 @@ export function resolveTransitionTargetFromSelection(params: {
     allowDurationClamp = true,
   } = params
 
-  if (selectedItemIds.length !== 1) return null
-  const itemId = selectedItemIds[0]!
+  // Ignore non-transitionable items (e.g. the linked audio selected along
+  // with its video) — a transition target only ever involves video/image/
+  // composition clips, and linked selection routinely selects the pair.
+  const transitionableIds = selectedItemIds.filter((id) => {
+    const item = items.find((candidate) => candidate.id === id)
+    return !!item && isTransitionableItem(item)
+  })
+  if (transitionableIds.length !== 1) return null
+  const itemId = transitionableIds[0]!
 
   const rightTarget = resolveTransitionTargetForEdge({
     itemId,

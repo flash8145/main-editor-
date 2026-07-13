@@ -158,19 +158,29 @@ export const TransitionsPanel = memo(function TransitionsPanel() {
   const updateTransition = useTimelineStore((s) => s.updateTransition)
   const items = useTimelineStore((s) => s.items)
   const transitions = useTimelineStore((s) => s.transitions)
-  // Get selection
+  // Get selection. Count only clips a transition can target (video/image/
+  // composition) so a linked video+audio pair still reads as one clip.
   const selectedItemIds = useSelectionStore((s) => s.selectedItemIds)
-  const selectionCount = selectedItemIds.length
-  const selectedId = selectionCount === 1 ? selectedItemIds[0] : null
+  const selectionCount = useMemo(
+    () =>
+      selectedItemIds.filter((id) => {
+        const item = items.find((candidate) => candidate.id === id)
+        return (
+          !!item &&
+          (item.type === 'video' || item.type === 'image' || item.type === 'composition')
+        )
+      }).length,
+    [selectedItemIds, items],
+  )
 
   const adjacentInfo = useMemo(() => {
-    if (!selectedId) return null
+    if (selectedItemIds.length === 0) return null
     return resolveTransitionTargetFromSelection({
-      selectedItemIds: [selectedId],
+      selectedItemIds,
       items,
       transitions,
     })
-  }, [selectedId, items, transitions])
+  }, [selectedItemIds, items, transitions])
 
   const setDraggedTransition = useTransitionDragStore((s) => s.setDraggedTransition)
   const setInvalidHint = useTransitionDragStore((s) => s.setInvalidHint)

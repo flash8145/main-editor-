@@ -143,6 +143,50 @@ describe('source edit actions', () => {
       expect(items[2]).toMatchObject({ from: 110, durationInFrames: 70 })
     })
 
+    it('repairs a transition referencing the pre-split id of a straddled clip', async () => {
+      useItemsStore.getState().setItems([
+        makeTimelineVideoItem({
+          id: 'first',
+          from: 0,
+          durationInFrames: 120,
+          sourceEnd: 120,
+          sourceDuration: 240,
+        }),
+        makeTimelineVideoItem({
+          id: 'second',
+          from: 120,
+          durationInFrames: 60,
+          sourceStart: 30,
+          sourceEnd: 90,
+          sourceDuration: 240,
+        }),
+      ])
+      useTransitionsStore.getState().setTransitions([
+        {
+          id: 'transition-1',
+          type: 'crossfade',
+          leftClipId: 'first',
+          rightClipId: 'second',
+          trackId: 'track-v1',
+          durationInFrames: 10,
+          presentation: 'fade',
+          timing: 'linear',
+          alignment: 0.5,
+        },
+      ])
+      usePlaybackStore.setState({ currentFrame: 50 })
+
+      await performInsertEdit()
+
+      // 'first' was split into new ids — no transition may still point at a
+      // clip id that no longer exists on the timeline.
+      const itemIds = new Set(useItemsStore.getState().items.map((item) => item.id))
+      for (const transition of useTransitionsStore.getState().transitions) {
+        expect(itemIds.has(transition.leftClipId)).toBe(true)
+        expect(itemIds.has(transition.rightClipId)).toBe(true)
+      }
+    })
+
     it('is undoable as a single entry', async () => {
       usePlaybackStore.setState({ currentFrame: 0 })
       const undoDepth = useTimelineCommandStore.getState().undoStack.length
@@ -236,6 +280,55 @@ describe('source edit actions', () => {
       expect(items).toHaveLength(1)
       expect(items[0]).toMatchObject({ from: 0, durationInFrames: 60, mediaId: 'media-1' })
       expect(items.find((item) => item.id === 'covered')).toBeUndefined()
+    })
+
+    it('rewires a transition whose right clip is replaced by the overwrite', async () => {
+      useItemsStore.getState().setItems([
+        makeTimelineVideoItem({
+          id: 'left',
+          from: 0,
+          durationInFrames: 60,
+          sourceEnd: 60,
+          sourceDuration: 120,
+        }),
+        makeTimelineVideoItem({
+          id: 'right',
+          from: 60,
+          durationInFrames: 60,
+          sourceStart: 30,
+          sourceEnd: 90,
+          sourceDuration: 120,
+        }),
+      ])
+      useTransitionsStore.getState().setTransitions([
+        {
+          id: 'transition-1',
+          type: 'crossfade',
+          leftClipId: 'left',
+          rightClipId: 'right',
+          trackId: 'track-v1',
+          durationInFrames: 10,
+          presentation: 'fade',
+          timing: 'linear',
+          alignment: 0.5,
+        },
+      ])
+      // Overwrite region 60..120 covers 'right' exactly — it is removed and
+      // the new clip lands at the same cut.
+      usePlaybackStore.setState({ currentFrame: 60 })
+
+      await performOverwriteEdit()
+
+      const items = trackItems('track-v1')
+      expect(items).toHaveLength(2)
+      const newClip = items[1]!
+      expect(newClip.mediaId).toBe('media-1')
+
+      // The transition must be rewired to the replacement clip (or removed) —
+      // never left dangling on the deleted 'right' id.
+      const transitions = useTransitionsStore.getState().transitions
+      expect(transitions).toHaveLength(1)
+      expect(transitions[0]).toMatchObject({ leftClipId: 'left', rightClipId: newClip.id })
     })
 
     it('trims only the overlapped tail of a preceding clip', async () => {

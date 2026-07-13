@@ -263,7 +263,9 @@ export async function performInsertEdit(): Promise<void> {
         if (straddleItem) {
           const splitResult = store._splitItem(straddleItem.id, insertFrame)
           if (splitResult) {
-            splitIds.push(splitResult.leftItem.id, splitResult.rightItem.id)
+            // Include the pre-split id: it's stale after the split, and any
+            // transition still referencing it must be repaired or dropped.
+            splitIds.push(straddleItem.id, splitResult.leftItem.id, splitResult.rightItem.id)
           }
         }
 
@@ -325,6 +327,10 @@ export async function performOverwriteEdit(): Promise<void> {
           )
 
         for (const item of overlapping) {
+          // The original id goes stale in every branch below (removed
+          // outright or replaced by split halves) — report it so transition
+          // repair can rewire or drop transitions still referencing it.
+          affectedIds.push(item.id)
           const itemEnd = item.from + item.durationInFrames
           const startsBeforeRegion = item.from < overwriteStart
           const endsAfterRegion = itemEnd > overwriteEnd

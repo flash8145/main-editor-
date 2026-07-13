@@ -190,6 +190,54 @@ describe('transition-targets', () => {
     })
   })
 
+  it('resolves a target when linked audio is selected along with its video', () => {
+    const items = [
+      createVideoClip('left', 0, 60, 0, 90, 120),
+      createVideoClip('right', 60, 60, 15, 75, 120),
+      {
+        id: 'left-audio',
+        type: 'audio' as const,
+        trackId: 'track-2',
+        from: 0,
+        durationInFrames: 60,
+        label: 'left-audio',
+        src: 'left.mp4',
+        sourceStart: 0,
+        sourceEnd: 90,
+        sourceDuration: 120,
+      },
+    ]
+
+    const target = resolveTransitionTargetFromSelection({
+      selectedItemIds: ['left', 'left-audio'],
+      items,
+      transitions: [],
+      preferredDurationInFrames: 30,
+    })
+
+    expect(target).toMatchObject({
+      leftClipId: 'left',
+      rightClipId: 'right',
+      canApply: true,
+      hasExisting: false,
+    })
+  })
+
+  it('returns null when multiple transitionable clips are selected', () => {
+    const items = [
+      createVideoClip('left', 0, 60, 0, 90, 120),
+      createVideoClip('right', 60, 60, 15, 75, 120),
+    ]
+
+    const target = resolveTransitionTargetFromSelection({
+      selectedItemIds: ['left', 'right'],
+      items,
+      transitions: [],
+    })
+
+    expect(target).toBeNull()
+  })
+
   it('resolves a compound clip followed by a regular clip', () => {
     const items = [
       createCompoundClip('compound', 0, 60, 0, 72, 120),
