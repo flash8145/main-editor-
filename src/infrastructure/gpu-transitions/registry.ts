@@ -23,6 +23,15 @@ import { liquidDistort } from './transitions/liquid-distort'
 import { lensWarpZoom } from './transitions/lens-warp-zoom'
 import { lightLeakBurn } from './transitions/light-leak-burn'
 import { filmGateSlip } from './transitions/film-gate-slip'
+import {
+  edgeWipe,
+  centerWipe,
+  bandWipe,
+  venetianBlindWipe,
+  radialWipe,
+  xWipe,
+  spiralWipe,
+} from './transitions/wipe-mask'
 
 export const GPU_TRANSITION_REGISTRY = new Map<string, GpuTransitionDefinition>()
 
@@ -51,6 +60,13 @@ register(liquidDistort)
 register(lensWarpZoom)
 register(lightLeakBurn)
 register(filmGateSlip)
+register(edgeWipe)
+register(centerWipe)
+register(bandWipe)
+register(venetianBlindWipe)
+register(radialWipe)
+register(xWipe)
+register(spiralWipe)
 
 export function getGpuTransition(id: string): GpuTransitionDefinition | undefined {
   return GPU_TRANSITION_REGISTRY.get(id)

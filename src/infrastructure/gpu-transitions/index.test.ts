@@ -303,4 +303,33 @@ describe('GPU transition registry', () => {
     expect(getGpuTransition('nope-not-here')).toBeUndefined()
     expect(getGpuTransition('')).toBeUndefined()
   })
+
+  it('registers the wipe-mask family (bug #9: these were CPU-only before)', () => {
+    const expected = [
+      { id: 'edgeWipe', entryPoint: 'edgeWipeFragment', hasDirection: true, category: 'wipe' },
+      { id: 'centerWipe', entryPoint: 'centerWipeFragment', hasDirection: false, category: 'wipe' },
+      { id: 'bandWipe', entryPoint: 'bandWipeFragment', hasDirection: false, category: 'wipe' },
+      {
+        id: 'venetianBlindWipe',
+        entryPoint: 'venetianBlindWipeFragment',
+        hasDirection: false,
+        category: 'wipe',
+      },
+      { id: 'radialWipe', entryPoint: 'radialWipeFragment', hasDirection: false, category: 'wipe' },
+      { id: 'xWipe', entryPoint: 'xWipeFragment', hasDirection: false, category: 'wipe' },
+      { id: 'spiralWipe', entryPoint: 'spiralWipeFragment', hasDirection: false, category: 'wipe' },
+    ] as const
+
+    for (const expectation of expected) {
+      const def = getGpuTransition(expectation.id)
+      expect(def, expectation.id).toBeDefined()
+      expect(def).toMatchObject(expectation)
+    }
+  })
+
+  it('packs edgeWipe with the direction byte in lane 3, like the plain wipe', () => {
+    const def = getGpuTransition('edgeWipe')!
+    const uniforms = def.packUniforms(0.6, 1280, 720, 3, {})
+    expect(Array.from(uniforms)).toEqual([expect.closeTo(0.6), 1280, 720, 3])
+  })
 })

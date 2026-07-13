@@ -218,6 +218,16 @@ function addOutgoingMaskPath(
   return undefined
 }
 
+const WIPE_MASK_GPU_TRANSITION_ID: Record<WipeMask, string> = {
+  band: 'bandWipe',
+  center: 'centerWipe',
+  edge: 'edgeWipe',
+  radial: 'radialWipe',
+  spiral: 'spiralWipe',
+  venetianBlind: 'venetianBlindWipe',
+  x: 'xWipe',
+}
+
 function createWipeMaskRenderer(kind: WipeMask): TransitionRenderer {
   let scratchCanvas: OffscreenCanvas | null = null
   let scratchCtx: OffscreenCanvasRenderingContext2D | null = null
@@ -236,6 +246,7 @@ function createWipeMaskRenderer(kind: WipeMask): TransitionRenderer {
   }
 
   return {
+    gpuTransitionId: WIPE_MASK_GPU_TRANSITION_ID[kind],
     renderCanvas(ctx, leftCanvas, rightCanvas, progress, direction, canvas) {
       const p = clamp01(progress)
       const dir = (direction as WipeDirection) || 'from-top'
