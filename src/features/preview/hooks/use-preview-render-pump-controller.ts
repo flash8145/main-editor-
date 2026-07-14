@@ -17,6 +17,7 @@ import {
 } from '../utils/decoder-prewarm'
 import { getDirectionalPrewarmOffsets } from '../utils/fast-scrub-prewarm'
 import { shouldShowFastScrubOverlay } from '../utils/fast-scrub-overlay-guard'
+import { shouldRedrawSettledScrubOverlay } from '../utils/scrub-settle-overlay'
 import { resolvePlaybackTransitionOverlayState } from '../utils/playback-transition-overlay'
 import {
   FAST_SCRUB_DIRECTIONAL_PREWARM_BACKWARD_STEPS,
@@ -1470,14 +1471,19 @@ export function usePreviewRenderPump({
             : null
           const requiresRenderedPath =
             forceFastScrubOverlay || shouldPreserveHighFidelityBackwardPreview(state.currentFrame)
-          if (showFastScrubOverlayRef.current) {
-            if (roundedFrame !== state.currentFrame) {
-              trackPlayerSeek(state.currentFrame)
-              playerRef.current?.seekTo(state.currentFrame)
-            }
-            return
-          }
-          if (requiresRenderedPath) {
+          // When the overlay is already the visible layer it must be redrawn to
+          // currentFrame, not left as-is: a ruler hover-skim shows a
+          // previewFrame that was never committed to currentFrame, so on
+          // mouse-leave the overlay would otherwise be orphaned on the stale
+          // skimmed frame with no later edit or seek repainting it (only play
+          // force-clears it). Same redraw path as a required rendered overlay
+          // (forced / high-fidelity backward preview). (bug #8)
+          if (
+            shouldRedrawSettledScrubOverlay({
+              showFastScrubOverlay: showFastScrubOverlayRef.current,
+              requiresRenderedPath,
+            })
+          ) {
             scrubRequestedFrameRef.current = state.currentFrame
             void pumpRenderLoop()
             if (roundedFrame !== state.currentFrame) {

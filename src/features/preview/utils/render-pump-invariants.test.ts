@@ -275,6 +275,63 @@ describe('render pump invariants', () => {
 })
 
 // ---------------------------------------------------------------------------
+// Paused overlay repaint on committed edit (bug #8)
+// ---------------------------------------------------------------------------
+
+describe('paused fast-scrub overlay repaint kick (bug #8)', () => {
+  /**
+   * A committed edit that changes the visual tracks re-runs the render-pump
+   * useEffect. Its cleanup sets `resumeScrubLoopRef.current` to a no-op before
+   * the re-run restores the real pump. A repaint kick fired *synchronously*
+   * during that window lands on the no-op and is silently dropped, so the
+   * paused fast-scrub overlay never repaints. Deferring the kick to a microtask
+   * lets it fire after the ref is restored.
+   */
+  function simulatePumpEffectReassign() {
+    let resumed = 0
+    const ref: { current: () => void } = { current: () => resumed++ }
+
+    // React commit phase: pump effect cleanup runs first...
+    const runCleanup = () => {
+      ref.current = () => {}
+    }
+    // ...then the pump effect re-runs and restores the real resume.
+    const runReassign = () => {
+      ref.current = () => resumed++
+    }
+
+    return {
+      ref,
+      runCleanup,
+      runReassign,
+      get resumed() {
+        return resumed
+      },
+    }
+  }
+
+  it('a synchronous kick during pump-effect reassignment is dropped', () => {
+    const sim = simulatePumpEffectReassign()
+    sim.runCleanup()
+    // items-change effect kicks synchronously while ref is the no-op
+    sim.ref.current()
+    sim.runReassign()
+    expect(sim.resumed).toBe(0)
+  })
+
+  it('a microtask-deferred kick fires after the ref is restored', async () => {
+    const sim = simulatePumpEffectReassign()
+    sim.runCleanup()
+    // items-change effect defers the kick to a microtask (the fix)
+    queueMicrotask(() => sim.ref.current())
+    // pump effect re-run restores the real resume before microtasks flush
+    sim.runReassign()
+    await Promise.resolve()
+    expect(sim.resumed).toBe(1)
+  })
+})
+
+// ---------------------------------------------------------------------------
 // Transition participant video hold
 // ---------------------------------------------------------------------------
 

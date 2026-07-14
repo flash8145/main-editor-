@@ -804,8 +804,17 @@ export function usePreviewRendererController({
         showFastScrubOverlayRef.current ||
         showPlaybackTransitionOverlayRef.current)
     ) {
-      scrubRequestedFrameRef.current = targetFrame
-      void resumeScrubLoopRef.current()
+      // Defer the kick to a microtask so it fires after the render-pump
+      // useEffect has re-assigned resumeScrubLoopRef to the new closure. A
+      // committed edit that changes fastScrubScaledTracks re-runs the pump
+      // effect; its cleanup sets resumeScrubLoopRef to a no-op before the
+      // re-run restores it, so a synchronous kick here is silently dropped and
+      // the paused fast-scrub overlay never repaints. Matches the deferral in
+      // the renderer-dispose effect above. (bug #8)
+      queueMicrotask(() => {
+        scrubRequestedFrameRef.current = targetFrame
+        void resumeScrubLoopRef.current()
+      })
     }
   }, [
     bgTransitionRendererRef,
