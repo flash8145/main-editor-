@@ -564,7 +564,7 @@ function CompactBandRows(props: CompactBandRowsProps) {
   return (
     <div className="space-y-1 px-2 pb-2">
       {/* Band toggle buttons */}
-      <div className="grid grid-cols-6 gap-1">
+      <div className="grid grid-cols-3 gap-1">
         {(
           [
             {
@@ -623,7 +623,7 @@ function CompactBandRows(props: CompactBandRowsProps) {
         ))}
       </div>
       {/* Filter type selectors */}
-      <div className="grid grid-cols-6 gap-1">
+      <div className="grid grid-cols-3 gap-1">
         <FilterTypeSelect
           value={b1Type}
           options={AUDIO_EQ_BAND1_FILTER_OPTIONS}
@@ -683,7 +683,7 @@ function CompactBandRows(props: CompactBandRowsProps) {
         />
       </div>
       {/* Frequency row */}
-      <div className="grid grid-cols-6 gap-1">
+      <div className="grid grid-cols-3 gap-1">
         <NumberInput
           value={props.eqBand1FrequencyHz}
           onChange={(v) => onFieldChange('audioEqBand1FrequencyHz', v)}
@@ -741,7 +741,7 @@ function CompactBandRows(props: CompactBandRowsProps) {
       </div>
       {/* Gain row */}
       {anyGain ? (
-        <div className="grid grid-cols-6 gap-1">
+        <div className="grid grid-cols-3 gap-1">
           {showGain(b1Type) ? (
             <NumberInput
               value={props.eqBand1GainDb}
@@ -824,7 +824,7 @@ function CompactBandRows(props: CompactBandRowsProps) {
       ) : null}
       {/* Q factor row */}
       {anyQ ? (
-        <div className="grid grid-cols-6 gap-1">
+        <div className="grid grid-cols-3 gap-1">
           {showQ(b1Type) ? (
             <NumberInput
               value={props.eqBand1Q}

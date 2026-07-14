@@ -105,6 +105,25 @@ function ensureCreateNewZoneTrack(params: {
 }
 
 /**
+ * Picks the track a new overlay layer anchors to (active track, else the
+ * topmost non-group track) and the height the new track should adopt.
+ */
+export function resolveOverlayLayerAnchor(
+  tracks: TimelineTrack[],
+  activeTrackId: string | null,
+): { anchorTrackId: string; preferredTrackHeight: number } {
+  // Group tracks are headers only and never hold items, so the active track
+  // only counts when it is a non-group track; otherwise fall through to the
+  // first non-group track (never tracks[0], which may itself be a group).
+  const activeNonGroupTrackId = tracks.find(
+    (track) => track.id === activeTrackId && !track.isGroup,
+  )?.id
+  const anchorTrackId = activeNonGroupTrackId ?? tracks.find((track) => !track.isGroup)?.id ?? ''
+  const preferredTrackHeight = tracks.find((track) => track.id === anchorTrackId)?.height ?? 64
+  return { anchorTrackId, preferredTrackHeight }
+}
+
+/**
  * Creates a fresh video-zone track at the top of the stack and returns the
  * updated tracks plus the new track id. Used for overlay layers (text/shape
  * presets dropped on the canvas) that should sit on their own layer above

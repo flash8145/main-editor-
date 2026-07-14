@@ -14,6 +14,7 @@ export {
   getDroppedMediaDurationInFrames,
   getTrackKind,
   isTimelineTemplateDragData,
+  resolveOverlayLayerAnchor,
   type DroppableMediaType,
 } from './timeline-contract'
 export { createScrubThrottleState, shouldCommitScrubFrame } from './timeline-contract'

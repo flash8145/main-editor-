@@ -12,6 +12,10 @@ const mocks = vi.hoisted(() => ({
     trackId: 'new-track-1',
     tracks: [{ id: 'new-track-1' }],
   })),
+  resolveOverlayLayerAnchor: vi.fn(() => ({
+    anchorTrackId: 'track-1',
+    preferredTrackHeight: 64,
+  })),
   getDroppedMediaDurationInFrames: vi.fn(() => 120),
   buildDroppedMediaTimelineItem: vi.fn(
     (params: {
@@ -118,6 +122,7 @@ vi.mock('@/features/preview/deps/timeline-utils', () => ({
   getDroppedMediaDurationInFrames: mocks.getDroppedMediaDurationInFrames,
   buildDroppedMediaTimelineItem: mocks.buildDroppedMediaTimelineItem,
   createNewVideoZoneTrack: mocks.createNewVideoZoneTrack,
+  resolveOverlayLayerAnchor: mocks.resolveOverlayLayerAnchor,
   createTimelineTemplateItem: mocks.createTimelineTemplateItem,
   getDefaultGeneratedLayerDurationInFrames: mocks.getDefaultGeneratedLayerDurationInFrames,
   isTimelineTemplateDragData: mocks.isTimelineTemplateDragData,

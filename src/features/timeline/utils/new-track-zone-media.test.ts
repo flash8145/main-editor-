@@ -1,9 +1,75 @@
 import { describe, expect, it } from 'vite-plus/test'
+import type { TimelineTrack } from '@/types/timeline'
 import { createDefaultClassicTracks } from './classic-tracks'
 import {
   buildGhostPreviewsFromNewTrackZonePlan,
   planNewTrackZonePlacements,
+  resolveOverlayLayerAnchor,
 } from './new-track-zone-media'
+
+function makeTrack(overrides: Partial<TimelineTrack> & { id: string }): TimelineTrack {
+  return {
+    name: overrides.id,
+    height: 64,
+    locked: false,
+    visible: true,
+    muted: false,
+    solo: false,
+    order: 0,
+    items: [],
+    ...overrides,
+  }
+}
+
+describe('resolveOverlayLayerAnchor', () => {
+  it('anchors to the active track when it is a non-group track', () => {
+    const tracks = [
+      makeTrack({ id: 'track-1', order: 0, height: 96 }),
+      makeTrack({ id: 'track-2', order: 1, height: 64 }),
+    ]
+
+    expect(resolveOverlayLayerAnchor(tracks, 'track-2')).toEqual({
+      anchorTrackId: 'track-2',
+      preferredTrackHeight: 64,
+    })
+  })
+
+  it('falls through to the first non-group track when the active track is a group header', () => {
+    const tracks = [
+      makeTrack({ id: 'group-1', order: 0, isGroup: true, height: 32 }),
+      makeTrack({ id: 'track-1', order: 1, height: 80 }),
+      makeTrack({ id: 'track-2', order: 2, height: 64 }),
+    ]
+
+    // A group track is a header only (never holds items) — anchoring an
+    // overlay layer to it would be meaningless, so this must skip past it.
+    expect(resolveOverlayLayerAnchor(tracks, 'group-1')).toEqual({
+      anchorTrackId: 'track-1',
+      preferredTrackHeight: 80,
+    })
+  })
+
+  it('falls through to the first non-group track when there is no active track', () => {
+    const tracks = [
+      makeTrack({ id: 'group-1', order: 0, isGroup: true }),
+      makeTrack({ id: 'track-1', order: 1, height: 88 }),
+    ]
+
+    expect(resolveOverlayLayerAnchor(tracks, null)).toEqual({
+      anchorTrackId: 'track-1',
+      preferredTrackHeight: 88,
+    })
+  })
+
+  it('returns an empty anchor with the default height when there are no non-group tracks', () => {
+    const tracks = [makeTrack({ id: 'group-1', order: 0, isGroup: true })]
+
+    expect(resolveOverlayLayerAnchor(tracks, null)).toEqual({
+      anchorTrackId: '',
+      preferredTrackHeight: 64,
+    })
+  })
+})
 
 describe('planNewTrackZonePlacements', () => {
   it('creates fresh video and audio tracks for linked video media in the video zone', () => {

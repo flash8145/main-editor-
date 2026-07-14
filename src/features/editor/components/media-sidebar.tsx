@@ -41,10 +41,10 @@ import { LottieBrowserPanel } from '@/features/editor/deps/lottie-browser'
 import { TransitionsPanel } from './transitions-panel'
 import {
   createDefaultShapeItem,
+  createNewVideoZoneTrack,
   createTextTemplateItem,
-  findCompatibleTrackForItemType,
-  findNearestAvailableSpace,
   getDefaultGeneratedLayerDurationInFrames,
+  resolveOverlayLayerAnchor,
 } from '@/features/editor/deps/timeline-utils'
 import { addAdjustmentLayer } from '../utils/add-adjustment-layer'
 import type { TextItem, ShapeItem, ShapeType } from '@/types/timeline'
@@ -393,33 +393,30 @@ export const MediaSidebar = memo(function MediaSidebar() {
   // These change frequently and would cause re-renders cascading to MediaLibrary/MediaCards
   // Read from store directly in callbacks using getState()
 
-  // Add text item to timeline at the best available position
+  // Add text item at the playhead. Text is an overlay, not a sequenced clip,
+  // so it always gets its own new layer above existing content — mirroring
+  // the canvas-drop placement in use-canvas-media-drop.ts — instead of being
+  // shoved to free space (typically past the end) on a shared track.
   const handleAddText = useCallback(
     (presetId?: (typeof TEXT_STYLE_PRESETS)[number]['id']) => {
       // Read all needed state from stores directly to avoid subscriptions
-      const { tracks, items, fps, addItem } = useTimelineStore.getState()
-      const { activeTrackId, selectItems } = useSelectionStore.getState()
+      const { tracks, fps, addItemOnNewTrack } = useTimelineStore.getState()
+      const { activeTrackId, setActiveTrack, selectItems } = useSelectionStore.getState()
       const currentProject = useProjectStore.getState().currentProject
 
-      const targetTrack = findCompatibleTrackForItemType({
+      const { anchorTrackId, preferredTrackHeight } = resolveOverlayLayerAnchor(
         tracks,
-        items,
-        itemType: 'text',
-        preferredTrackId: activeTrackId,
-      })
+        activeTrackId,
+      )
+      const newTrack = createNewVideoZoneTrack({ tracks, anchorTrackId, preferredTrackHeight })
 
-      if (!targetTrack) {
+      if (!newTrack) {
         logger.warn('No available track for text item')
         return
       }
 
       const durationInFrames = getDefaultGeneratedLayerDurationInFrames(fps)
-
-      // Find the best position: start at playhead, find nearest available space
-      const proposedPosition = usePlaybackStore.getState().currentFrame
-      const finalPosition =
-        findNearestAvailableSpace(proposedPosition, durationInFrames, targetTrack.id, items) ??
-        proposedPosition // Fallback to proposed if no space found
+      const from = Math.max(0, usePlaybackStore.getState().currentFrame)
 
       // Get canvas dimensions for initial transform
       const canvasWidth = currentProject?.metadata.width ?? DEFAULT_PROJECT_WIDTH
@@ -430,8 +427,8 @@ export const MediaSidebar = memo(function MediaSidebar() {
         : undefined
       const textItem: TextItem = createTextTemplateItem({
         placement: {
-          trackId: targetTrack.id,
-          from: finalPosition,
+          trackId: newTrack.trackId,
+          from,
           durationInFrames,
           canvasWidth,
           canvasHeight,
@@ -442,53 +439,50 @@ export const MediaSidebar = memo(function MediaSidebar() {
         textStylePresetId: presetId,
       })
 
-      addItem(textItem)
+      addItemOnNewTrack(textItem, newTrack.tracks)
+      setActiveTrack(newTrack.trackId)
       // Select the new item
       selectItems([textItem.id])
     },
     [t],
   )
 
-  // Add shape item to timeline at the best available position
+  // Add shape item at the playhead — same overlay-gets-its-own-track
+  // placement as handleAddText above.
   const handleAddShape = useCallback((shapeType: ShapeType) => {
     // Read all needed state from stores directly to avoid subscriptions
-    const { tracks, items, fps, addItem } = useTimelineStore.getState()
-    const { activeTrackId, selectItems } = useSelectionStore.getState()
+    const { tracks, fps, addItemOnNewTrack } = useTimelineStore.getState()
+    const { activeTrackId, setActiveTrack, selectItems } = useSelectionStore.getState()
     const currentProject = useProjectStore.getState().currentProject
 
-    const targetTrack = findCompatibleTrackForItemType({
+    const { anchorTrackId, preferredTrackHeight } = resolveOverlayLayerAnchor(
       tracks,
-      items,
-      itemType: 'shape',
-      preferredTrackId: activeTrackId,
-    })
+      activeTrackId,
+    )
+    const newTrack = createNewVideoZoneTrack({ tracks, anchorTrackId, preferredTrackHeight })
 
-    if (!targetTrack) {
+    if (!newTrack) {
       logger.warn('No available track for shape item')
       return
     }
 
     const durationInFrames = getDefaultGeneratedLayerDurationInFrames(fps)
-
-    // Find the best position: start at playhead, find nearest available space
-    const proposedPosition = usePlaybackStore.getState().currentFrame
-    const finalPosition =
-      findNearestAvailableSpace(proposedPosition, durationInFrames, targetTrack.id, items) ??
-      proposedPosition
+    const from = Math.max(0, usePlaybackStore.getState().currentFrame)
 
     const canvasWidth = currentProject?.metadata.width ?? DEFAULT_PROJECT_WIDTH
     const canvasHeight = currentProject?.metadata.height ?? DEFAULT_PROJECT_HEIGHT
 
     const shapeItem: ShapeItem = createDefaultShapeItem({
-      trackId: targetTrack.id,
-      from: finalPosition,
+      trackId: newTrack.trackId,
+      from,
       durationInFrames,
       canvasWidth,
       canvasHeight,
       shapeType,
     })
 
-    addItem(shapeItem)
+    addItemOnNewTrack(shapeItem, newTrack.tracks)
+    setActiveTrack(newTrack.trackId)
     // Select the new item
     selectItems([shapeItem.id])
   }, [])
@@ -632,6 +626,11 @@ export const MediaSidebar = memo(function MediaSidebar() {
                 : t('editor.mediaSidebar.expandPanel')
             }
             data-tooltip-side="right"
+            aria-label={
+              leftSidebarOpen
+                ? t('editor.mediaSidebar.collapsePanel')
+                : t('editor.mediaSidebar.expandPanel')
+            }
           >
             {leftSidebarOpen ? (
               <ChevronLeft className="w-3.5 h-3.5" />
@@ -672,6 +671,8 @@ export const MediaSidebar = memo(function MediaSidebar() {
               `}
               data-tooltip={label}
               data-tooltip-side="right"
+              aria-label={label}
+              aria-pressed={activeTab === id && leftSidebarOpen && !keyframeEditorOpen}
             >
               <Icon className="w-4 h-4" />
             </button>

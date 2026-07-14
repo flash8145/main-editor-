@@ -6,6 +6,7 @@
 export {
   createClassicTrack,
   createDefaultAdjustmentItem,
+  createNewVideoZoneTrack,
   createScrubThrottleState,
   shouldCommitScrubFrame,
   createDefaultShapeItem,
@@ -16,6 +17,7 @@ export {
   getDefaultGeneratedLayerDurationInFrames,
   getTrackKind,
   resolveEffectiveTrackStates,
+  resolveOverlayLayerAnchor,
   getMaxTransitionDurationForHandles,
   resolveTransitionTargetFromSelection,
   searchTimelineTranscript,

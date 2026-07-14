@@ -19,6 +19,7 @@ export {
   performInsertEdit,
   performOverwriteEdit,
   resolveEffectiveTrackStates,
+  resolveOverlayLayerAnchor,
   resolveSourceEditTrackTargets,
   shouldCommitScrubFrame,
   timelineToSourceFrames,
