@@ -174,8 +174,21 @@ function addAperturePath(
   path.closePath()
 }
 
+const IRIS_SHAPE_GPU_TRANSITION_ID: Record<IrisShape, string> = {
+  arrow: 'arrowIris',
+  cross: 'crossIris',
+  diamond: 'diamondIris',
+  eye: 'eyeIris',
+  hexagon: 'hexagonIris',
+  oval: 'ovalIris',
+  pentagon: 'pentagonIris',
+  square: 'squareIris',
+  triangle: 'triangleIris',
+}
+
 function createIrisRenderer(shape: IrisShape): TransitionRenderer {
   return {
+    gpuTransitionId: IRIS_SHAPE_GPU_TRANSITION_ID[shape],
     renderCanvas(ctx, leftCanvas, rightCanvas, progress, _dir, canvas, properties) {
       const p = clamp01(progress)
       const w = canvas?.width ?? leftCanvas.width

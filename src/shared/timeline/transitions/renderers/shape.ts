@@ -167,8 +167,17 @@ function addAperturePath(
   path.closePath()
 }
 
+const SHAPE_APERTURE_GPU_TRANSITION_ID: Record<ShapeAperture, string> = {
+  box: 'boxShape',
+  heart: 'heartShape',
+  star: 'starShape',
+  triangleLeft: 'triangleLeftShape',
+  triangleRight: 'triangleRightShape',
+}
+
 function createShapeRenderer(shape: ShapeAperture): TransitionRenderer {
   return {
+    gpuTransitionId: SHAPE_APERTURE_GPU_TRANSITION_ID[shape],
     renderCanvas(ctx, leftCanvas, rightCanvas, progress, _direction, canvas) {
       const p = clamp01(progress)
       const w = canvas?.width ?? leftCanvas.width

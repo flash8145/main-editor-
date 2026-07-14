@@ -332,4 +332,67 @@ describe('GPU transition registry', () => {
     const uniforms = def.packUniforms(0.6, 1280, 720, 3, {})
     expect(Array.from(uniforms)).toEqual([expect.closeTo(0.6), 1280, 720, 3])
   })
+
+  it('registers the Iris-shape aperture family (bug #9: these were CPU-only before)', () => {
+    const expected = [
+      'arrowIris',
+      'crossIris',
+      'diamondIris',
+      'hexagonIris',
+      'pentagonIris',
+      'squareIris',
+      'triangleIris',
+      'ovalIris',
+      'eyeIris',
+    ] as const
+
+    for (const id of expected) {
+      const def = getGpuTransition(id)
+      expect(def, id).toBeDefined()
+      expect(def).toMatchObject({
+        id,
+        entryPoint: `${id}Fragment`,
+        category: 'iris',
+        hasDirection: false,
+      })
+    }
+  })
+
+  it('registers the Shape aperture family (bug #9: these were CPU-only before)', () => {
+    const expected = [
+      'boxShape',
+      'starShape',
+      'heartShape',
+      'triangleLeftShape',
+      'triangleRightShape',
+    ] as const
+
+    for (const id of expected) {
+      const def = getGpuTransition(id)
+      expect(def, id).toBeDefined()
+      expect(def).toMatchObject({
+        id,
+        entryPoint: `${id}Fragment`,
+        category: 'shape',
+        hasDirection: false,
+      })
+    }
+  })
+
+  it('packs iris apertures with the outgoingDim param in lane 3', () => {
+    const def = getGpuTransition('diamondIris')!
+    expect(Array.from(def.packUniforms(0.3, 1920, 1080, 0, { outgoingDim: 0.1 }))).toEqual([
+      expect.closeTo(0.3),
+      1920,
+      1080,
+      expect.closeTo(0.1),
+    ])
+    // Falls back to the CPU renderer's default when the property is absent.
+    expect(Array.from(def.packUniforms(0.3, 1920, 1080, 0, {}))).toEqual([
+      expect.closeTo(0.3),
+      1920,
+      1080,
+      expect.closeTo(0.06),
+    ])
+  })
 })

@@ -32,6 +32,22 @@ import {
   xWipe,
   spiralWipe,
 } from './transitions/wipe-mask'
+import {
+  arrowIris,
+  crossIris,
+  diamondIris,
+  hexagonIris,
+  pentagonIris,
+  squareIris,
+  triangleIris,
+  ovalIris,
+  eyeIris,
+  boxShape,
+  starShape,
+  heartShape,
+  triangleLeftShape,
+  triangleRightShape,
+} from './transitions/aperture-masks'
 
 export const GPU_TRANSITION_REGISTRY = new Map<string, GpuTransitionDefinition>()
 
@@ -67,6 +83,20 @@ register(venetianBlindWipe)
 register(radialWipe)
 register(xWipe)
 register(spiralWipe)
+register(arrowIris)
+register(crossIris)
+register(diamondIris)
+register(hexagonIris)
+register(pentagonIris)
+register(squareIris)
+register(triangleIris)
+register(ovalIris)
+register(eyeIris)
+register(boxShape)
+register(starShape)
+register(heartShape)
+register(triangleLeftShape)
+register(triangleRightShape)
 
 export function getGpuTransition(id: string): GpuTransitionDefinition | undefined {
   return GPU_TRANSITION_REGISTRY.get(id)
