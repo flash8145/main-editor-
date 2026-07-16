@@ -9,6 +9,8 @@ import {
 } from '@/shared/utils/whisper-settings'
 import type { EditorDensityPresetName } from '@/config/editor-layout'
 import { DEFAULT_EDITOR_DENSITY_PRESET, normalizeEditorDensityPreset } from '@/config/editor-layout'
+import type { UiMode } from '@/config/ui-mode'
+import { DEFAULT_UI_MODE, normalizeUiMode } from '@/config/ui-mode'
 import {
   HOTKEYS,
   normalizeHotkeyBinding,
@@ -35,6 +37,9 @@ interface AppSettings {
 
   // Interface
   editorDensity: EditorDensityPresetName
+  // Progressive-disclosure axis (ADR 001). Presentation only — never affects
+  // project data or render output.
+  uiMode: UiMode
 
   // Performance
   maxUndoHistory: number
@@ -146,6 +151,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 
   // Interface
   editorDensity: DEFAULT_EDITOR_DENSITY_PRESET,
+  uiMode: DEFAULT_UI_MODE,
 
   // Performance
   maxUndoHistory: 50,
@@ -208,6 +214,9 @@ export const useSettingsStore = create<SettingsStore>()(
           }
           if (key === 'editorDensity') {
             return { editorDensity: normalizeEditorDensityPreset(value) }
+          }
+          if (key === 'uiMode') {
+            return { uiMode: normalizeUiMode(value) }
           }
           if (key === 'defaultCaptionStylePresetId') {
             return { defaultCaptionStylePresetId: normalizeCaptionStylePresetId(value) }
@@ -320,6 +329,11 @@ export const useSettingsStore = create<SettingsStore>()(
           defaultWhisperModel: normalizeSelectableWhisperModel(typedState.defaultWhisperModel),
           hotkeyOverrides: sanitizeHotkeyOverrides(typedState.hotkeyOverrides),
           editorDensity: normalizeEditorDensityPreset(typedState.editorDensity),
+          // New field (ADR 001): anyone persisted before uiMode existed has no
+          // stored value, so the normalizer lands them on the Easy default.
+          // No schema bump needed — a version migration is only for CHANGING an
+          // existing value, not for introducing one.
+          uiMode: normalizeUiMode(typedState.uiMode),
           captioningIntervalUnit,
           captioningIntervalValue: clampCaptioningIntervalValue(
             typedState.captioningIntervalValue,

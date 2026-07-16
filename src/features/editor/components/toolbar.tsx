@@ -32,6 +32,7 @@ import { ProjectDebugPanel } from './project-debug-panel'
 import { SettingsDialog } from './settings-dialog'
 import { ShortcutsDialog } from './shortcuts-dialog'
 import { UnsavedChangesDialog } from './unsaved-changes-dialog'
+import { UiModeSwitcher } from './ui-mode-switcher'
 import { WorkspaceSwitcher } from './workspace-switcher'
 import { WhatsNewDialog } from './whats-new-dialog'
 import { hasUnseenChangelog } from './whats-new-seen'
@@ -203,8 +204,9 @@ export const Toolbar = memo(function Toolbar({
         </div>
       </div>
 
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1 items-center justify-center gap-2">
         <WorkspaceSwitcher />
+        <UiModeSwitcher />
       </div>
 
       <LocalInferenceStatusPill />

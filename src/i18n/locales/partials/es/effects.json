@@ -229,5 +229,26 @@
     "importFailed": "No se pudo leer este archivo .cube",
     "intensity": "Intensidad",
     "unsupportedBrowser": "La importación de LUT requiere un navegador basado en Chromium"
+  },
+  "colorLooks": {
+    "title": "Estilos",
+    "reset": "Restablecer",
+    "adjustTitle": "Ajustar",
+    "items": {
+      "warm": "Cálido",
+      "cool": "Frío",
+      "vivid": "Intenso",
+      "muted": "Apagado",
+      "bright": "Luminoso",
+      "moody": "Sombrío",
+      "blackAndWhite": "Blanco y negro",
+      "sepia": "Sepia"
+    },
+    "adjust": {
+      "exposure": "Brillo",
+      "contrast": "Contraste",
+      "saturation": "Color",
+      "warmth": "Calidez"
+    }
   }
 }

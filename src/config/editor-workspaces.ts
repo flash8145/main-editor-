@@ -18,7 +18,11 @@ export type EditorSidebarTab =
   | 'lottie'
   | 'transcript'
   | 'ai'
-export type EditorClipInspectorTab = 'video' | 'audio' | 'effects'
+// 'animate' only ever appears as a tab in Easy mode's Properties sidebar
+// (ADR 001) — it surfaces the same AnimationPresetLibrary the Animate
+// workspace uses, so applying a one-click animation never requires
+// discovering that workspace. Pro mode never renders this tab.
+export type EditorClipInspectorTab = 'video' | 'audio' | 'effects' | 'animate'
 
 /** The slice of editor UI state that a workspace controls. */
 export interface EditorWorkspaceLayout {
@@ -86,7 +90,12 @@ const SIDEBAR_TABS: readonly EditorSidebarTab[] = [
   'transcript',
   'ai',
 ]
-const CLIP_INSPECTOR_TABS: readonly EditorClipInspectorTab[] = ['video', 'audio', 'effects']
+const CLIP_INSPECTOR_TABS: readonly EditorClipInspectorTab[] = [
+  'video',
+  'audio',
+  'effects',
+  'animate',
+]
 
 function isSidebarTab(value: unknown): value is EditorSidebarTab {
   return SIDEBAR_TABS.includes(value as EditorSidebarTab)

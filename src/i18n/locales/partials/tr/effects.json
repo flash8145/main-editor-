@@ -227,5 +227,26 @@
     "importFailed": "Bu .cube dosyası okunamadı",
     "intensity": "Yoğunluk",
     "unsupportedBrowser": "LUT içe aktarma Chromium tabanlı bir tarayıcı gerektirir"
+  },
+  "colorLooks": {
+    "title": "Görünümler",
+    "reset": "Sıfırla",
+    "adjustTitle": "Ayarla",
+    "items": {
+      "warm": "Sıcak",
+      "cool": "Soğuk",
+      "vivid": "Canlı",
+      "muted": "Solgun",
+      "bright": "Parlak",
+      "moody": "Karanlık",
+      "blackAndWhite": "Siyah beyaz",
+      "sepia": "Sepya"
+    },
+    "adjust": {
+      "exposure": "Parlaklık",
+      "contrast": "Kontrast",
+      "saturation": "Renk",
+      "warmth": "Sıcaklık"
+    }
   }
 }

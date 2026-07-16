@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "置換",
         "add": "追加"
-      }
+      },
+      "advancedToggle": "詳細設定: キーフレームとカーブ",
+      "presetsHintEasy": "アニメーションを選ぶとすぐに適用されます。詳細設定で微調整できます。"
     },
     "motionGenerator": {
       "title": "ジェネレーター",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "調整レイヤーのエフェクトは、上のトラックのすべてのアイテムに適用されます。",
       "tabText": "テキスト",
       "tabAnimation": "アニメーション",
-      "tabShape": "シェイプ"
+      "tabShape": "シェイプ",
+      "tabAnimate": "アニメート"
     },
     "gifSection": {
       "animation": "アニメーション",
@@ -505,7 +508,8 @@
       "penToolHint": "ペンツールでカスタムパス図形を描画",
       "adjustmentLayer": "調整レイヤー",
       "blankAdjustmentLayer": "空の調整レイヤー",
-      "presets": "プリセット"
+      "presets": "プリセット",
+      "keyframeEditorRailLabel": "キーフレーム"
     },
     "textSection": {
       "sectionTitle": "テキスト",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "グレーディングするクリップを選択してください",
-      "adjustmentLayerLabel": "グレーディング"
+      "adjustmentLayerLabel": "グレーディング",
+      "advancedToggle": "詳細設定: カラーホイール・カーブ・エフェクト"
     }
   }
 }

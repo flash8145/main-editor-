@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "Ersetzen",
         "add": "Hinzufügen"
-      }
+      },
+      "advancedToggle": "Erweitert: Keyframes & Kurven",
+      "presetsHintEasy": "Wähle eine Animation — sie wird sofort angewendet. Unter Erweitert kannst du sie verfeinern."
     },
     "motionGenerator": {
       "title": "Generator",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "Effekte auf Einstellungsebenen gelten für alle Elemente auf Spuren darüber.",
       "tabText": "Text",
       "tabAnimation": "Animation",
-      "tabShape": "Form"
+      "tabShape": "Form",
+      "tabAnimate": "Animieren"
     },
     "gifSection": {
       "animation": "Animation",
@@ -505,7 +508,8 @@
       "penToolHint": "Eine eigene Pfadform mit dem Stiftwerkzeug zeichnen",
       "adjustmentLayer": "Einstellungsebene",
       "blankAdjustmentLayer": "Leere Einstellungsebene",
-      "presets": "Vorgaben"
+      "presets": "Vorgaben",
+      "keyframeEditorRailLabel": "Keyframes"
     },
     "textSection": {
       "sectionTitle": "Text",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "Wähle einen Clip für die Farbkorrektur aus",
-      "adjustmentLayerLabel": "Farbkorrektur"
+      "adjustmentLayerLabel": "Farbkorrektur",
+      "advancedToggle": "Erweitert: Farbräder, Kurven & Effekte"
     }
   }
 }

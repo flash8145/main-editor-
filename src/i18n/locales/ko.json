@@ -59,7 +59,14 @@
     "saveAria": "프로젝트 저장",
     "export": "내보내기",
     "exportVideo": "동영상 내보내기",
-    "downloadProjectZip": "프로젝트 다운로드 (.zip)"
+    "downloadProjectZip": "프로젝트 다운로드 (.zip)",
+    "uiMode": {
+      "label": "인터페이스 모드",
+      "easy": "쉬움",
+      "pro": "프로",
+      "easyTooltip": "쉬움: 모든 기능은 그대로, 간단한 방법을 먼저 표시",
+      "proTooltip": "프로: 모든 컨트롤을 처음부터 표시"
+    }
   },
   "unsavedChanges": {
     "title": "저장하지 않은 변경 사항",
@@ -85,7 +92,8 @@
       "uiSounds": "인터페이스 사운드",
       "uiSoundVolume": "사운드 볼륨",
       "uiSoundVoice": "사운드 테마",
-      "uiSoundPreview": "미리듣기"
+      "uiSoundPreview": "미리듣기",
+      "uiMode": "인터페이스 모드"
     },
     "ai": {
       "captionSampleInterval": "자막 샘플링 간격",

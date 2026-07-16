@@ -119,9 +119,15 @@ FreeCut is a precision tool that recedes. The visual system behaves like a
 well-machined instrument in a darkened room: graphite panels, restrained chrome,
 no decoration that doesn't earn its pixels. The footage in the preview is the
 brightest, most saturated thing on the screen, and everything else is tuned to
-stay out of its way. This is a serious NLE for editors who came from Premiere Pro
-and DaVinci Resolve and expect those workflows; the interface projects expert
-confidence by being legible, predictable, and fast, never by being loud.
+stay out of its way. This is a serious NLE that serves two audiences over one
+engine — editors who came from Premiere Pro and DaVinci Resolve and expect those
+workflows, and capable non-editors who need the same power without the
+vocabulary (Easy/Pro modes, `docs/adr/001-easy-pro-modes.md`). The interface
+projects confidence by being legible, predictable, and fast, never by being
+loud. **This visual system is the same in both modes**: Easy mode changes
+hierarchy and wording, never the palette, type, density tokens, or restraint.
+There is no friendlier skin — clarity is achieved by showing the right thing
+first, not by softening the instrument.
 
 The surface is built from a tight neutral ramp in OKLCH, dark by default and dark
 on purpose: long sessions, color-critical grading, and scopes all need a
@@ -131,11 +137,14 @@ panels a notch up, popovers between) so the eye reads hierarchy from value alone
 A single warm orange (`oklch(0.68 0.19 45)`) is the one signal color: playback,
 active state, focus, the playhead. Its rarity is what makes it legible.
 
-This system explicitly rejects the consumer-editor look (CapCut/iMovie playful
-rounded candy, emoji, gamified flourishes), the flashy SaaS dashboard
+This system explicitly rejects the consumer-editor **look** (CapCut/iMovie
+playful rounded candy, emoji, gamified flourishes), the flashy SaaS dashboard
 (gradient heroes, glassmorphism, big-number metric cards), and the cramped
-legacy-NLE chrome (beveled gray toolbars, illegible 10px labels). Density here is
-high but always clean and scannable.
+legacy-NLE chrome (beveled gray toolbars, illegible 10px labels). Rejecting that
+*look* is not a rejection of *approachability*: Easy mode borrows the clear
+first-run path and one-click starting points and leaves the candy behind.
+Density is high in Pro and always clean and scannable; in Easy it is deferred,
+not decorated.
 
 **Key Characteristics:**
 - Dark-only, neutral graphite ramp; value carries hierarchy
@@ -313,6 +322,8 @@ density and more color than the rest of the app because the color is data.
   (`oklch(0.6 0 0)`) is borderline — bump toward ink where it fails.
 - **Do** keep components flat and quiet; affordance via a small color/value shift.
 - **Do** let the preview/footage be the brightest, most saturated thing on screen.
+- **Do** reach for hierarchy and plain wording — not a softer palette — when a
+  surface needs to be easier (ADR 001). Easy mode uses these same tokens.
 
 ### Don't:
 - **Don't** make it look like a consumer editor (CapCut/iMovie): no playful candy

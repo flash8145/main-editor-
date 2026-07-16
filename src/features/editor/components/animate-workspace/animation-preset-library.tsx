@@ -256,6 +256,7 @@ interface MotionPresetSectionProps {
   presets: MotionPreset[]
   reasonFor: (preset: MotionPreset) => string | null
   onApply: (preset: MotionPreset) => void
+  gridClass: string
   t: (key: string, options?: Record<string, unknown>) => string
 }
 
@@ -265,6 +266,7 @@ const MotionPresetSection = memo(function MotionPresetSection({
   presets,
   reasonFor,
   onApply,
+  gridClass,
   t,
 }: MotionPresetSectionProps) {
   return (
@@ -272,7 +274,7 @@ const MotionPresetSection = memo(function MotionPresetSection({
       <h3 className="text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
         {t(`editor.motionPresets.categories.${category}`)}
       </h3>
-      <div className="grid grid-cols-3 gap-1.5">
+      <div className={gridClass}>
         {presets.map((preset) => {
           const reason = reasonFor(preset)
           const disabled = reason !== null
@@ -310,6 +312,40 @@ const MotionPresetSection = memo(function MotionPresetSection({
   )
 })
 
+type AnimationPresetLibraryLayout = 'rail' | 'primary' | 'embedded'
+
+/**
+ * The three host containers (Animate-workspace rail, Animate-workspace primary
+ * surface, Properties-sidebar tab) size and frame the panel differently; this
+ * is the only thing that differs between them, factored out so the (already
+ * large) `AnimationPresetLibrary` body isn't also carrying this branching.
+ */
+function AnimationPresetLibraryFrame({
+  layout,
+  header,
+  children,
+}: {
+  layout: AnimationPresetLibraryLayout
+  header: ReactNode
+  children: ReactNode
+}) {
+  const isPrimary = layout === 'primary'
+  const isEmbedded = layout === 'embedded'
+  return (
+    <div
+      className={cn(
+        'flex min-w-0 flex-col',
+        !isEmbedded && 'h-full bg-background',
+        isPrimary && 'flex-1',
+        !isPrimary && !isEmbedded && 'w-72 border-l border-border',
+      )}
+    >
+      {header}
+      {isEmbedded ? children : <ScrollArea className="min-h-0 flex-1">{children}</ScrollArea>}
+    </div>
+  )
+}
+
 /**
  * Animation preset library (U7, R16): browse and save/apply the project's saved
  * animation presets from the Animate workspace. Presentational shell over the
@@ -319,10 +355,34 @@ const MotionPresetSection = memo(function MotionPresetSection({
  */
 export const AnimationPresetLibrary = memo(function AnimationPresetLibrary({
   canvas,
+  layout = 'rail',
 }: {
   canvas: CanvasSettings
+  /**
+   * `rail` (Pro, Animate workspace): a fixed 288px column beside the dopesheet,
+   * which owns the space. `primary` (Easy, Animate workspace): the library IS
+   * the editing surface and fills it, with the dopesheet behind an Advanced
+   * disclosure. `embedded` (Easy, Properties sidebar clip panel): the same
+   * panel surfaced on clip selection so applying an animation never requires
+   * discovering the Animate workspace — sized to its own content rather than a
+   * fixed height, since it sits inside the sidebar's own scroll container, not
+   * a dedicated flex row (ADR 001). Same panel and apply path in all three —
+   * only the space/chrome it claims changes.
+   */
+  layout?: AnimationPresetLibraryLayout
 }) {
   const { t } = useTranslation()
+  const isPrimary = layout === 'primary'
+  const isEmbedded = layout === 'embedded'
+  // The rail is a fixed 288px, so 3 fixed columns fit it exactly. Primary and
+  // embedded are both wider free-flowing containers: fixed columns would
+  // stretch each tile, and plain auto-fill across the full width strands 9
+  // presets in a 17-column row with half the panel empty. Cap the content to a
+  // readable column (below) and size tiles up — Easy favours bigger targets.
+  const presetGridClass =
+    isPrimary || isEmbedded
+      ? 'grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2'
+      : 'grid grid-cols-3 gap-1.5'
   const projectId = useProjectStore((s) => s.currentProject?.id ?? null)
   const selectedItemIds = useSelectionStore((s) => s.selectedItemIds)
   const selectedItems = useItemsStore(
@@ -774,37 +834,41 @@ export const AnimationPresetLibrary = memo(function AnimationPresetLibrary({
     openClearKeyframes(selectedItemIds)
   }, [openClearKeyframes, selectedItemIds])
 
-  return (
-    <TooltipProvider delayDuration={300}>
-      <div className="flex h-full w-72 min-w-0 flex-col border-l border-border bg-background">
-        <div className="flex items-center justify-between border-b border-border px-3 py-2">
-          <span className="text-xs font-medium text-muted-foreground">
-            {t('editor.animatePresets.title')}
+  const header = (
+    <div className="flex items-center justify-between border-b border-border px-3 py-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        {t('editor.animatePresets.title')}
+      </span>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 gap-1 px-1.5 text-[11px]"
+              disabled={!canCapture}
+              onClick={() => setDialogOpen(true)}
+            >
+              <Plus className="h-3 w-3" />
+              {t('editor.animatePresets.saveButton')}
+            </Button>
           </span>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 gap-1 px-1.5 text-[11px]"
-                  disabled={!canCapture}
-                  onClick={() => setDialogOpen(true)}
-                >
-                  <Plus className="h-3 w-3" />
-                  {t('editor.animatePresets.saveButton')}
-                </Button>
-              </span>
-            </TooltipTrigger>
-            {!canCapture && (
-              <TooltipContent>{t('editor.animatePresets.noAnimationToSave')}</TooltipContent>
-            )}
-          </Tooltip>
-        </div>
+        </TooltipTrigger>
+        {!canCapture && <TooltipContent>{t('editor.animatePresets.noAnimationToSave')}</TooltipContent>}
+      </Tooltip>
+    </div>
+  )
 
-        <ScrollArea className="min-h-0 flex-1">
-          {/* Extra right padding clears the overlay scrollbar so values aren't clipped. */}
-          <div className="flex flex-col gap-4 p-3 pr-4">
+  // Extra right padding clears the overlay scrollbar so values aren't clipped.
+  // Primary/embedded can be far wider than the tile grid wants — cap it to a
+  // readable column instead of stranding tiles in one sparse row.
+  const body = (
+    <div
+      className={cn(
+        'flex flex-col gap-4 p-3 pr-4',
+        (isPrimary || isEmbedded) && 'mx-auto w-full max-w-4xl',
+      )}
+    >
             {/* ── Applied state for the selected clip — keyframes, live
                 modulators, audio pulse. Each removable thing carries an ✕. ── */}
             {hasAnyAnimation && (
@@ -855,8 +919,10 @@ export const AnimationPresetLibrary = memo(function AnimationPresetLibrary({
 
             {/* ── Start: presets (declarative). Picking one fills the dopesheet
                 with editable keyframes — the cue points users at the graph. ── */}
+            {/* The Pro hint points at the graph sitting right there. In Easy the
+                graph is behind the Advanced disclosure, so it needs its own. */}
             <p className="rounded-md bg-secondary/30 px-2 py-1.5 text-[10px] leading-snug text-muted-foreground">
-              {t('editor.animateStages.presetsHint')}
+              {t(isPrimary ? 'editor.animateStages.presetsHintEasy' : 'editor.animateStages.presetsHint')}
             </p>
 
             {/* On-apply behavior: Replace swaps a preset's properties, Add layers. */}
@@ -891,6 +957,7 @@ export const AnimationPresetLibrary = memo(function AnimationPresetLibrary({
                 presets={presetsByCategory[category]}
                 reasonFor={motionReason}
                 onApply={handleApplyMotion}
+                gridClass={presetGridClass}
                 t={t}
               />
             ))}
@@ -904,7 +971,7 @@ export const AnimationPresetLibrary = memo(function AnimationPresetLibrary({
               title={t('editor.animateStages.continuousTitle')}
               hint={t('editor.animateStages.continuousHint')}
             >
-              <div className="grid grid-cols-3 gap-1.5">
+              <div className={presetGridClass}>
                 {MOTION_MODULATORS.map((modulator) => (
                   <ContinuousMotionRow
                     key={modulator.id}
@@ -1005,16 +1072,20 @@ export const AnimationPresetLibrary = memo(function AnimationPresetLibrary({
                 })
               )}
             </section>
-          </div>
-        </ScrollArea>
+    </div>
+  )
 
-        <SaveAnimationPresetDialog
-          open={dialogOpen}
-          onOpenChange={setDialogOpen}
-          existingNames={presets.map((preset) => preset.name)}
-          onSave={handleSave}
-        />
-      </div>
+  return (
+    <TooltipProvider delayDuration={300}>
+      <AnimationPresetLibraryFrame layout={layout} header={header}>
+        {body}
+      </AnimationPresetLibraryFrame>
+      <SaveAnimationPresetDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        existingNames={presets.map((preset) => preset.name)}
+        onSave={handleSave}
+      />
     </TooltipProvider>
   )
 })

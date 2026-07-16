@@ -1,11 +1,14 @@
-import { lazy, memo, Suspense, useCallback, useMemo } from 'react'
+import { lazy, memo, Suspense, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Palette } from 'lucide-react'
+import { ChevronDown, Palette } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { useSelectionStore } from '@/shared/state/selection'
 import { useItemsStore } from '@/features/editor/deps/timeline-store'
 import { KeyframeGraphPanel } from '@/features/editor/deps/timeline-contract'
+import { useSettingsStore } from '@/features/editor/deps/settings'
 import { addAdjustmentLayer } from '@/features/editor/utils/add-adjustment-layer'
+import { cn } from '@/shared/ui/cn'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import type { TimelineItem } from '@/types/timeline'
 
 const LazyColorGradeSection = lazy(() =>
@@ -16,6 +19,11 @@ const LazyColorGradeSection = lazy(() =>
 const LazyEffectsSection = lazy(() =>
   import('@/features/editor/deps/effects-contract').then((module) => ({
     default: module.EffectsSection,
+  })),
+)
+const LazyColorLooksSection = lazy(() =>
+  import('@/features/editor/deps/effects-contract').then((module) => ({
+    default: module.ColorLooksSection,
   })),
 )
 
@@ -34,6 +42,8 @@ export const ColorGradePanel = memo(function ColorGradePanel({
   layout = 'sidebar',
 }: ColorGradePanelProps) {
   const { t } = useTranslation()
+  const isEasyMode = useSettingsStore((s) => s.uiMode) === 'easy'
+  const [advancedOpen, setAdvancedOpen] = useState(false)
   const selectedItemIds = useSelectionStore((s) => s.selectedItemIds)
   const visualItems = useItemsStore(
     useShallow(
@@ -73,6 +83,69 @@ export const ColorGradePanel = memo(function ColorGradePanel({
   }
 
   const sectionClassName = layout === 'dock' ? 'min-h-0 overflow-hidden' : undefined
+
+  if (layout === 'dock' && isEasyMode) {
+    return (
+      <div className="flex h-full min-h-0 flex-col">
+        {/* Looks first: the gallery is what a newcomer can actually start from.
+            The Pro dock (wheels + curves + effect stack + keyframe lane, all at
+            once) is the same panel, one disclosure away. (ADR 001) */}
+        <ScrollArea className="min-h-0 flex-1">
+          <div className="mx-auto w-full max-w-3xl p-3">
+            <Suspense fallback={null}>
+              <LazyColorLooksSection items={visualItems} />
+            </Suspense>
+          </div>
+        </ScrollArea>
+
+        {advancedOpen && (
+          <div className="min-h-0 flex-[2] border-t border-border pt-3">
+            <div className="grid h-full min-h-0 grid-cols-[minmax(0,10fr)_minmax(0,3fr)_minmax(0,7fr)] gap-3">
+              <Suspense fallback={null}>
+                <div className={sectionClassName}>
+                  <LazyColorGradeSection
+                    items={visualItems}
+                    layout="dock"
+                    onCreateAdjustmentLayer={handleCreateAdjustmentLayer}
+                  />
+                </div>
+                <div className="min-h-0 overflow-hidden rounded-[3px] border border-border/70 bg-background/35">
+                  <LazyEffectsSection
+                    items={visualItems}
+                    hiddenGpuEffectTypes={COLOR_PANEL_EFFECT_TYPES}
+                    layout="dock"
+                  />
+                </div>
+                <div
+                  className="min-h-0 overflow-hidden rounded-[3px] border border-border/70 bg-background/35"
+                  data-testid="color-keyframes-lane"
+                >
+                  <KeyframeGraphPanel
+                    isOpen={true}
+                    placement="side"
+                    showCloseButton={false}
+                    onClose={handleKeepKeyframesOpen}
+                  />
+                </div>
+              </Suspense>
+            </div>
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={() => setAdvancedOpen((open) => !open)}
+          aria-expanded={advancedOpen}
+          className="flex shrink-0 items-center gap-1.5 border-t border-border px-3 py-1.5 text-[11px] text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ChevronDown
+            className={cn('h-3.5 w-3.5 transition-transform', !advancedOpen && '-rotate-90')}
+          />
+          {t('editor.colorPanel.advancedToggle')}
+        </button>
+      </div>
+    )
+  }
 
   if (layout === 'dock') {
     return (

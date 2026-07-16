@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { useEditorStore } from '@/shared/state/editor'
 import { useSelectionStore } from '@/shared/state/selection'
+import { useSettingsStore } from '@/features/editor/deps/settings'
 import { useItemsStore, useTimelineStore } from '@/features/editor/deps/timeline-store'
 import { useProjectStore } from '@/features/editor/deps/projects'
 import {
@@ -50,6 +51,15 @@ const LazyTextStyleSection = lazy(() =>
 )
 const LazyTextAnimationSection = lazy(() =>
   import('./text-section').then((module) => ({ default: module.TextAnimationSection })),
+)
+// Same panel the Animate workspace uses (ADR 001) — Easy mode surfaces it as a
+// clip-panel tab so applying a one-click animation never requires discovering
+// that workspace. Already includes text-motion controls for text selections,
+// so it fully covers what the Pro-only "Animation" tab below does for text.
+const LazyAnimationPresetLibrary = lazy(() =>
+  import('../../animate-workspace/animation-preset-library').then((module) => ({
+    default: module.AnimationPresetLibrary,
+  })),
 )
 
 /**
@@ -108,6 +118,7 @@ function computeItemTypeInfo(items: TimelineItem[]) {
  */
 export const ClipPanel = memo(function ClipPanel() {
   const { t } = useTranslation()
+  const isEasyMode = useSettingsStore((s) => s.uiMode) === 'easy'
   // Granular selectors with explicit types
   const clipInspectorTab = useEditorStore((s) => s.clipInspectorTab)
   const setClipInspectorTab = useEditorStore((s) => s.setClipInspectorTab)
@@ -234,18 +245,25 @@ export const ClipPanel = memo(function ClipPanel() {
   // Determine which categories should be visible. For a pure-text selection the
   // three slots are repurposed: Text (value 'video'), Animation ('audio'),
   // Effects — so the middle slot is available even though text has no audio.
+  // In Easy mode the text-only "Animation" slot is replaced by the Animate tab
+  // below (which already includes the same text-motion controls plus the
+  // one-click keyframe presets), so it isn't shown twice (ADR 001).
   const showVideoTab = layoutFillItems.length > 0
   const showAudioTab = hasAudioItems
-  const showSecondTab = showAudioTab || isOnlyText
+  const showSecondTab = showAudioTab || (isOnlyText && !isEasyMode)
   const showEffectsTab = hasVisualItems
+  // Easy-only: the same preset library the Animate workspace uses, so applying
+  // a one-click animation never requires discovering that workspace (ADR 001).
+  const showAnimateTab = isEasyMode && hasVisualItems
 
   const availableTabs = useMemo(() => {
     const tabs: ClipInspectorTab[] = []
     if (showVideoTab) tabs.push('video')
     if (showSecondTab) tabs.push('audio')
     if (showEffectsTab) tabs.push('effects')
+    if (showAnimateTab) tabs.push('animate')
     return tabs
-  }, [showSecondTab, showEffectsTab, showVideoTab])
+  }, [showAnimateTab, showSecondTab, showEffectsTab, showVideoTab])
 
   const fallbackTab = availableTabs[0] ?? 'video'
   const activeTab = availableTabs.includes(clipInspectorTab) ? clipInspectorTab : fallbackTab
@@ -277,6 +295,9 @@ export const ClipPanel = memo(function ClipPanel() {
       if (isOnlyText) return { label: t('editor.clipPanel.tabAnimation'), icon: WandSparkles }
       return { label: t('editor.clipPanel.tabAudio'), icon: Volume2 }
     }
+    if (value === 'animate') {
+      return { label: t('editor.clipPanel.tabAnimate'), icon: WandSparkles }
+    }
     return { label: t('editor.clipPanel.tabEffects'), icon: Sparkles }
   }
   const tabGridColsClass =
@@ -284,7 +305,9 @@ export const ClipPanel = memo(function ClipPanel() {
       ? 'grid-cols-1'
       : availableTabs.length === 2
         ? 'grid-cols-2'
-        : 'grid-cols-3'
+        : availableTabs.length === 3
+          ? 'grid-cols-3'
+          : 'grid-cols-4'
 
   if (selectedItems.length === 0) {
     return null
@@ -395,6 +418,20 @@ export const ClipPanel = memo(function ClipPanel() {
             </>
           )}
         </TabsContent>
+
+        {/* Animate Tab — Easy mode only (ADR 001). Same panel as the Animate
+            workspace: one-click motion presets, continuous motion, and (for
+            text selections) the text-motion slots it already includes, so
+            nothing from the old text-only Animation tab is lost. */}
+        {showAnimateTab && (
+          <TabsContent value="animate" className="mt-3">
+            {activeTab === 'animate' && (
+              <Suspense fallback={null}>
+                <LazyAnimationPresetLibrary canvas={canvas} layout="embedded" />
+              </Suspense>
+            )}
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )

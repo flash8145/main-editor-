@@ -229,5 +229,26 @@
     "importFailed": "无法读取此 .cube 文件",
     "intensity": "强度",
     "unsupportedBrowser": "导入 LUT 需要基于 Chromium 的浏览器"
+  },
+  "colorLooks": {
+    "title": "风格",
+    "reset": "重置",
+    "adjustTitle": "调整",
+    "items": {
+      "warm": "暖色",
+      "cool": "冷色",
+      "vivid": "鲜艳",
+      "muted": "柔和",
+      "bright": "明亮",
+      "moody": "暗调",
+      "blackAndWhite": "黑白",
+      "sepia": "棕褐"
+    },
+    "adjust": {
+      "exposure": "亮度",
+      "contrast": "对比度",
+      "saturation": "色彩",
+      "warmth": "色温"
+    }
   }
 }

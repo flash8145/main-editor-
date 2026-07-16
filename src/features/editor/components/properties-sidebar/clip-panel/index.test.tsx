@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { useEditorStore } from '@/shared/state/editor'
 import { useSelectionStore } from '@/shared/state/selection'
+import { useSettingsStore } from '@/features/editor/deps/settings'
 import { useTimelineStore } from '@/features/editor/deps/timeline-store'
 import type { AudioItem, VideoItem } from '@/types/timeline'
 import { ClipPanel } from './index'
@@ -44,6 +45,14 @@ vi.mock('@/features/editor/deps/effects-contract', () => ({
   EffectsSection: () => <div>Effects Body</div>,
 }))
 
+vi.mock('../../animate-workspace/animation-preset-library', () => ({
+  AnimationPresetLibrary: ({ layout }: { layout?: string }) => (
+    <div data-testid="animation-preset-library" data-layout={layout}>
+      Animate Body
+    </div>
+  ),
+}))
+
 const VIDEO_ITEM: VideoItem = {
   id: 'clip-video-1',
   type: 'video',
@@ -66,7 +75,7 @@ const AUDIO_ITEM: AudioItem = {
   mediaId: 'media-audio-1',
 }
 
-function activateTab(name: 'Audio' | 'Effects' | 'Video') {
+function activateTab(name: 'Audio' | 'Effects' | 'Video' | 'Animate') {
   const tab = screen.getByRole('tab', { name })
   fireEvent.mouseDown(tab, { button: 0, ctrlKey: false })
   fireEvent.focus(tab)
@@ -99,6 +108,10 @@ function resetStores(items: Array<VideoItem | AudioItem>, selectedItemIds: strin
 describe('ClipPanel inspector tabs', () => {
   beforeEach(() => {
     resetStores([VIDEO_ITEM], [VIDEO_ITEM.id])
+    // The tab set depends on the UI mode (ADR 001) — the Animate tab only
+    // exists in Easy, so tests that don't mean to exercise it state Pro
+    // explicitly rather than riding on whatever the default is.
+    useSettingsStore.setState({ uiMode: 'pro' })
   })
 
   it('restores the last selected clip tab after deselecting and reselecting', async () => {
@@ -141,5 +154,24 @@ describe('ClipPanel inspector tabs', () => {
     })
     expect(screen.getByRole('tab', { name: 'Audio' })).toHaveAttribute('data-state', 'active')
     expect(useEditorStore.getState().clipInspectorTab).toBe('audio')
+  })
+
+  it('does not surface the Animate tab in Pro mode', () => {
+    render(<ClipPanel />)
+
+    expect(screen.queryByRole('tab', { name: 'Animate' })).not.toBeInTheDocument()
+  })
+
+  it('surfaces the Animate tab in Easy mode and applies presets through the same panel the Animate workspace uses', async () => {
+    useSettingsStore.setState({ uiMode: 'easy' })
+    render(<ClipPanel />)
+
+    activateTab('Animate')
+
+    const library = await screen.findByTestId('animation-preset-library')
+    // 'rail' is the fixed-288px Animate-workspace layout — inside the
+    // Properties sidebar this must size to its own content instead (ADR 001).
+    expect(library).toHaveAttribute('data-layout', 'embedded')
+    expect(useEditorStore.getState().clipInspectorTab).toBe('animate')
   })
 })

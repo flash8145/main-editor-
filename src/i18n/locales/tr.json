@@ -59,7 +59,14 @@
     "saveAria": "Projeyi kaydet",
     "export": "Dışa Aktar",
     "exportVideo": "Videoyu Dışa Aktar",
-    "downloadProjectZip": "Projeyi İndir (.zip)"
+    "downloadProjectZip": "Projeyi İndir (.zip)",
+    "uiMode": {
+      "label": "Arayüz modu",
+      "easy": "Kolay",
+      "pro": "Pro",
+      "easyTooltip": "Kolay: her şey burada, basit yol önde",
+      "proTooltip": "Pro: tüm denetimler açıkta"
+    }
   },
   "unsavedChanges": {
     "title": "Kaydedilmemiş Değişiklikler",
@@ -85,7 +92,8 @@
       "uiSounds": "Arayüz sesleri",
       "uiSoundVolume": "Ses düzeyi",
       "uiSoundVoice": "Ses teması",
-      "uiSoundPreview": "Önizleme"
+      "uiSoundPreview": "Önizleme",
+      "uiMode": "Arayüz modu"
     },
     "ai": {
       "captionSampleInterval": "Altyazı örnekleme aralığı",

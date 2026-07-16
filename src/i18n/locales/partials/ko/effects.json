@@ -229,5 +229,26 @@
     "importFailed": "이 .cube 파일을 읽을 수 없습니다",
     "intensity": "강도",
     "unsupportedBrowser": "LUT 가져오기에는 Chromium 기반 브라우저가 필요합니다"
+  },
+  "colorLooks": {
+    "title": "룩",
+    "reset": "초기화",
+    "adjustTitle": "조정",
+    "items": {
+      "warm": "따뜻하게",
+      "cool": "차갑게",
+      "vivid": "선명하게",
+      "muted": "차분하게",
+      "bright": "밝게",
+      "moody": "무겁게",
+      "blackAndWhite": "흑백",
+      "sepia": "세피아"
+    },
+    "adjust": {
+      "exposure": "밝기",
+      "contrast": "대비",
+      "saturation": "색감",
+      "warmth": "색온도"
+    }
   }
 }

@@ -2,12 +2,9 @@ import { useCallback, useMemo, useRef, useEffect, memo, lazy, Suspense, useState
 import { useTranslation } from 'react-i18next'
 import {
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   ChevronUp,
   Film,
   Layers,
-  LineChart,
   Type,
   Square,
   Circle,
@@ -66,6 +63,8 @@ import {
   clampLeftEditorSidebarWidth,
   getEditorLayout,
 } from '@/config/editor-layout'
+import type { EditorSidebarTab } from '@/config/editor-workspaces'
+import { MediaSidebarRail } from './media-sidebar-rail'
 
 const logger = createLogger('MediaSidebar')
 const TEXT_TEMPLATE_PREVIEW_SHELL =
@@ -280,6 +279,9 @@ export const MediaSidebar = memo(function MediaSidebar() {
   const { t } = useTranslation()
   const editorDensity = useSettingsStore((s) => s.editorDensity)
   const editorLayout = getEditorLayout(editorDensity)
+  // Easy mode labels the rail rather than hiding names behind hover tooltips
+  // (ADR 001). Presentation only — the same 8 categories are present in both.
+  const isEasyMode = useSettingsStore((s) => s.uiMode) === 'easy'
   // Use granular selectors - Zustand v5 best practice
   const leftSidebarOpen = useEditorStore((s) => s.leftSidebarOpen)
   const toggleLeftSidebar = useEditorStore((s) => s.toggleLeftSidebar)
@@ -552,6 +554,37 @@ export const MediaSidebar = memo(function MediaSidebar() {
   }, [])
 
   // Category items for the vertical nav
+  // The keyframe editor is a dedicated takeover of the column; choosing a
+  // category tab exits it and reveals that tab's content. Re-selecting the
+  // active tab collapses the column.
+  const handleSelectCategory = useCallback(
+    (id: EditorSidebarTab) => {
+      if (keyframeEditorOpen) {
+        setKeyframeEditorOpen(false)
+        setActiveTab(id)
+        if (!leftSidebarOpen) toggleLeftSidebar()
+        if (id === 'effects') triggerPreviews()
+        return
+      }
+      if (activeTab === id && leftSidebarOpen) {
+        toggleLeftSidebar()
+        return
+      }
+      setActiveTab(id)
+      if (!leftSidebarOpen) toggleLeftSidebar()
+      if (id === 'effects') triggerPreviews()
+    },
+    [
+      activeTab,
+      keyframeEditorOpen,
+      leftSidebarOpen,
+      setActiveTab,
+      setKeyframeEditorOpen,
+      toggleLeftSidebar,
+      triggerPreviews,
+    ],
+  )
+
   const categories = [
     { id: 'media' as const, icon: Film, label: t('editor.mediaSidebar.media') },
     { id: 'text' as const, icon: Type, label: t('editor.mediaSidebar.text') },
@@ -603,109 +636,16 @@ export const MediaSidebar = memo(function MediaSidebar() {
 
   return (
     <div className="flex h-full flex-shrink-0">
-      {/* Vertical Category Bar */}
-      <div
-        className="panel-header border-r border-border flex flex-col items-center flex-shrink-0"
-        style={{ width: EDITOR_LAYOUT_CSS_VALUES.sidebarRailWidth }}
-      >
-        {/* Header row - aligned with content panel header */}
-        <div
-          className="flex items-center justify-center border-b border-border w-full"
-          style={{ height: EDITOR_LAYOUT_CSS_VALUES.sidebarHeaderHeight }}
-        >
-          <button
-            onClick={toggleLeftSidebar}
-            className="rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
-            style={{
-              width: EDITOR_LAYOUT_CSS_VALUES.sidebarHeaderButtonSize,
-              height: EDITOR_LAYOUT_CSS_VALUES.sidebarHeaderButtonSize,
-            }}
-            data-tooltip={
-              leftSidebarOpen
-                ? t('editor.mediaSidebar.collapsePanel')
-                : t('editor.mediaSidebar.expandPanel')
-            }
-            data-tooltip-side="right"
-            aria-label={
-              leftSidebarOpen
-                ? t('editor.mediaSidebar.collapsePanel')
-                : t('editor.mediaSidebar.expandPanel')
-            }
-          >
-            {leftSidebarOpen ? (
-              <ChevronLeft className="w-3.5 h-3.5" />
-            ) : (
-              <ChevronRight className="w-3.5 h-3.5" />
-            )}
-          </button>
-        </div>
-
-        {/* Category Icons */}
-        <div className="flex flex-col gap-1 py-1.5">
-          {categories.map(({ id, icon: Icon, label }) => (
-            <button
-              key={id}
-              onClick={() => {
-                // The keyframe editor is a dedicated takeover of the column; choosing
-                // a category tab exits it and reveals that tab's content.
-                if (keyframeEditorOpen) {
-                  setKeyframeEditorOpen(false)
-                  setActiveTab(id)
-                  if (!leftSidebarOpen) toggleLeftSidebar()
-                  if (id === 'effects') triggerPreviews()
-                } else if (activeTab === id && leftSidebarOpen) {
-                  toggleLeftSidebar()
-                } else {
-                  setActiveTab(id)
-                  if (!leftSidebarOpen) toggleLeftSidebar()
-                  if (id === 'effects') triggerPreviews()
-                }
-              }}
-              className={`
-                w-9 h-9 rounded-lg flex items-center justify-center transition-[transform,background-color,color] duration-150 active:scale-95
-                ${
-                  activeTab === id && leftSidebarOpen && !keyframeEditorOpen
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                }
-              `}
-              data-tooltip={label}
-              data-tooltip-side="right"
-              aria-label={label}
-              aria-pressed={activeTab === id && leftSidebarOpen && !keyframeEditorOpen}
-            >
-              <Icon className="w-4 h-4" />
-            </button>
-          ))}
-
-          <div className="w-6 border-t border-border mx-auto my-0.5" />
-
-          <button
-            onClick={toggleKeyframeEditorOpen}
-            className={`
-              w-9 h-9 rounded-lg flex items-center justify-center transition-[transform,background-color,color] duration-150 active:scale-95
-              ${
-                keyframeEditorOpen
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-              }
-            `}
-            data-tooltip={
-              keyframeEditorOpen
-                ? t('editor.mediaSidebar.hideKeyframeEditor')
-                : t('editor.mediaSidebar.keyframeEditor')
-            }
-            data-tooltip-side="right"
-            aria-label={
-              keyframeEditorOpen
-                ? t('editor.mediaSidebar.hideKeyframeEditor')
-                : t('editor.mediaSidebar.showKeyframeEditor')
-            }
-          >
-            <LineChart className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+      <MediaSidebarRail
+        categories={categories}
+        activeTab={activeTab}
+        leftSidebarOpen={leftSidebarOpen}
+        keyframeEditorOpen={keyframeEditorOpen}
+        isEasyMode={isEasyMode}
+        onSelectCategory={handleSelectCategory}
+        onToggleLeftSidebar={toggleLeftSidebar}
+        onToggleKeyframeEditor={toggleKeyframeEditorOpen}
+      />
 
       {/* Content Panel — width animated via motion for the open/close toggle.
           We intentionally animate `width` (a layout property, not the cheaper

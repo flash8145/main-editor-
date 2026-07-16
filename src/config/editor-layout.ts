@@ -9,6 +9,10 @@ const EDITOR_DENSITY_PRESETS = {
   compact: {
     toolbarHeight: 48,
     sidebarRailWidth: 44,
+    // Easy mode labels the rail (icon over a word) instead of relying on
+    // hover tooltips, so it needs room for the longest label. Pro keeps the
+    // narrow icon-only rail and buys back the horizontal space. (ADR 001)
+    sidebarRailLabeledWidth: 76,
     sidebarHeaderHeight: 36,
     sidebarHeaderButtonSize: 20,
     toolbarButtonSize: 20,
@@ -60,6 +64,7 @@ export const EDITOR_LAYOUT = getEditorLayout()
 const EDITOR_LAYOUT_CSS_VAR_NAMES = {
   toolbarHeight: '--editor-toolbar-height',
   sidebarRailWidth: '--editor-sidebar-rail-width',
+  sidebarRailLabeledWidth: '--editor-sidebar-rail-labeled-width',
   sidebarHeaderHeight: '--editor-sidebar-header-height',
   sidebarHeaderButtonSize: '--editor-sidebar-header-button-size',
   toolbarButtonSize: '--editor-toolbar-button-size',
@@ -81,6 +86,7 @@ const EDITOR_LAYOUT_CSS_VAR_NAMES = {
 export const EDITOR_LAYOUT_CSS_VALUES = {
   toolbarHeight: `var(${EDITOR_LAYOUT_CSS_VAR_NAMES.toolbarHeight})`,
   sidebarRailWidth: `var(${EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarRailWidth})`,
+  sidebarRailLabeledWidth: `var(${EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarRailLabeledWidth})`,
   sidebarHeaderHeight: `var(${EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarHeaderHeight})`,
   sidebarHeaderButtonSize: `var(${EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarHeaderButtonSize})`,
   toolbarButtonSize: `var(${EDITOR_LAYOUT_CSS_VAR_NAMES.toolbarButtonSize})`,
@@ -103,6 +109,7 @@ export function getEditorLayoutCssVars(layout = EDITOR_LAYOUT): Record<string, s
   return {
     [EDITOR_LAYOUT_CSS_VAR_NAMES.toolbarHeight]: `${layout.toolbarHeight}px`,
     [EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarRailWidth]: `${layout.sidebarRailWidth}px`,
+    [EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarRailLabeledWidth]: `${layout.sidebarRailLabeledWidth}px`,
     [EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarHeaderHeight]: `${layout.sidebarHeaderHeight}px`,
     [EDITOR_LAYOUT_CSS_VAR_NAMES.sidebarHeaderButtonSize]: `${layout.sidebarHeaderButtonSize}px`,
     [EDITOR_LAYOUT_CSS_VAR_NAMES.toolbarButtonSize]: `${layout.toolbarButtonSize}px`,

@@ -59,7 +59,14 @@
     "saveAria": "Enregistrer le projet",
     "export": "Exporter",
     "exportVideo": "Exporter la vidéo",
-    "downloadProjectZip": "Télécharger le projet (.zip)"
+    "downloadProjectZip": "Télécharger le projet (.zip)",
+    "uiMode": {
+      "label": "Mode d'interface",
+      "easy": "Simple",
+      "pro": "Pro",
+      "easyTooltip": "Simple : tout est là, avec le chemin le plus direct en premier",
+      "proTooltip": "Pro : tous les réglages affichés d'emblée"
+    }
   },
   "unsavedChanges": {
     "title": "Modifications non enregistrées",
@@ -85,7 +92,8 @@
       "uiSounds": "Sons de l'interface",
       "uiSoundVolume": "Volume du son",
       "uiSoundVoice": "Thème sonore",
-      "uiSoundPreview": "Aperçu"
+      "uiSoundPreview": "Aperçu",
+      "uiMode": "Mode d'interface"
     },
     "ai": {
       "captionSampleInterval": "Intervalle d'échantillonnage des sous-titres",

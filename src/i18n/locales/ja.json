@@ -59,7 +59,14 @@
     "saveAria": "プロジェクトを保存",
     "export": "書き出し",
     "exportVideo": "動画を書き出し",
-    "downloadProjectZip": "プロジェクトをダウンロード (.zip)"
+    "downloadProjectZip": "プロジェクトをダウンロード (.zip)",
+    "uiMode": {
+      "label": "インターフェースモード",
+      "easy": "かんたん",
+      "pro": "プロ",
+      "easyTooltip": "かんたん: すべての機能はそのままに、簡単な手順を前面に表示",
+      "proTooltip": "プロ: すべてのコントロールを最初から表示"
+    }
   },
   "unsavedChanges": {
     "title": "未保存の変更",
@@ -85,7 +92,8 @@
       "uiSounds": "インターフェースサウンド",
       "uiSoundVolume": "サウンド音量",
       "uiSoundVoice": "サウンドテーマ",
-      "uiSoundPreview": "プレビュー"
+      "uiSoundPreview": "プレビュー",
+      "uiMode": "インターフェースモード"
     },
     "ai": {
       "captionSampleInterval": "字幕のサンプリング間隔",

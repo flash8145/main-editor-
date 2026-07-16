@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "Reemplazar",
         "add": "Añadir"
-      }
+      },
+      "advancedToggle": "Avanzado: fotogramas clave y curvas",
+      "presetsHintEasy": "Elige una animación: se aplica al instante. Abre Avanzado para ajustarla."
     },
     "motionGenerator": {
       "title": "Generador",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "Los efectos en capas de ajuste se aplican a todos los elementos de las pistas superiores.",
       "tabText": "Texto",
       "tabAnimation": "Animación",
-      "tabShape": "Forma"
+      "tabShape": "Forma",
+      "tabAnimate": "Animar"
     },
     "gifSection": {
       "animation": "Animación",
@@ -505,7 +508,8 @@
       "penToolHint": "Dibuja una forma de ruta personalizada con la herramienta pluma",
       "adjustmentLayer": "Capa de ajuste",
       "blankAdjustmentLayer": "Capa de ajuste en blanco",
-      "presets": "Preajustes"
+      "presets": "Preajustes",
+      "keyframeEditorRailLabel": "Fotogramas"
     },
     "textSection": {
       "sectionTitle": "Texto",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "Selecciona un clip para etalonar",
-      "adjustmentLayerLabel": "Etalonaje"
+      "adjustmentLayerLabel": "Etalonaje",
+      "advancedToggle": "Avanzado: ruedas, curvas y efectos"
     }
   }
 }

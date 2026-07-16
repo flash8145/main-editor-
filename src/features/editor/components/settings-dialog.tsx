@@ -18,6 +18,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { UiModeSwitcher } from './ui-mode-switcher'
 import { Switch } from '@/components/ui/switch'
 import { Slider } from '@/components/ui/slider'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -635,6 +636,10 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
                   >
                     {activeSection === 'general' && (
                 <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">{t('settings.general.uiMode')}</Label>
+                    <UiModeSwitcher />
+                  </div>
                   <div className="flex items-center justify-between">
                     <Label className="text-sm">{t('settings.general.autoSave')}</Label>
                     <Switch

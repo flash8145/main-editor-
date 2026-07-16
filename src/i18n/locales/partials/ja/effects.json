@@ -229,5 +229,26 @@
     "importFailed": "この .cube ファイルを読み込めませんでした",
     "intensity": "強度",
     "unsupportedBrowser": "LUT の読み込みには Chromium ベースのブラウザが必要です"
+  },
+  "colorLooks": {
+    "title": "ルック",
+    "reset": "リセット",
+    "adjustTitle": "調整",
+    "items": {
+      "warm": "暖色",
+      "cool": "寒色",
+      "vivid": "鮮やか",
+      "muted": "控えめ",
+      "bright": "明るい",
+      "moody": "重厚",
+      "blackAndWhite": "白黒",
+      "sepia": "セピア"
+    },
+    "adjust": {
+      "exposure": "明るさ",
+      "contrast": "コントラスト",
+      "saturation": "色の濃さ",
+      "warmth": "色温度"
+    }
   }
 }

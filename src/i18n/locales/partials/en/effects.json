@@ -183,7 +183,6 @@
     "grid": "Grid",
     "type": "Type",
     "grainSize": "Grain Size",
-    "shape": "Shape",
     "sizeX": "Width",
     "sizeY": "Height",
     "feather": "Feather",
@@ -280,5 +279,26 @@
     "importFailed": "Could not read this .cube file",
     "intensity": "Intensity",
     "unsupportedBrowser": "LUT import needs a Chromium-based browser"
+  },
+  "colorLooks": {
+    "title": "Looks",
+    "reset": "Reset",
+    "adjustTitle": "Adjust",
+    "items": {
+      "warm": "Warm",
+      "cool": "Cool",
+      "vivid": "Vivid",
+      "muted": "Muted",
+      "bright": "Bright",
+      "moody": "Moody",
+      "blackAndWhite": "Black & white",
+      "sepia": "Sepia"
+    },
+    "adjust": {
+      "exposure": "Brightness",
+      "contrast": "Contrast",
+      "saturation": "Colour",
+      "warmth": "Warmth"
+    }
   }
 }

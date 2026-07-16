@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "Replace",
         "add": "Add"
-      }
+      },
+      "advancedToggle": "Advanced: keyframes & curves",
+      "presetsHintEasy": "Pick an animation — it applies straight away. Open Advanced to fine-tune it."
     },
     "motionGenerator": {
       "title": "Generator",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "Effects on adjustment layers apply to all items on tracks above.",
       "tabText": "Text",
       "tabAnimation": "Animation",
-      "tabShape": "Shape"
+      "tabShape": "Shape",
+      "tabAnimate": "Animate"
     },
     "gifSection": {
       "animation": "Animation",
@@ -505,7 +508,8 @@
       "penToolHint": "Draw a custom path shape with the pen tool",
       "adjustmentLayer": "Adjustment layer",
       "blankAdjustmentLayer": "Blank adjustment layer",
-      "presets": "Presets"
+      "presets": "Presets",
+      "keyframeEditorRailLabel": "Keyframes"
     },
     "textSection": {
       "sectionTitle": "Text",
@@ -690,7 +694,8 @@
       "dockLabel": "Color grading workspace",
       "dockTitle": "Color",
       "emptyState": "Select a clip to grade",
-      "adjustmentLayerLabel": "Grade"
+      "adjustmentLayerLabel": "Grade",
+      "advancedToggle": "Advanced: wheels, curves & effects"
     }
   }
 }

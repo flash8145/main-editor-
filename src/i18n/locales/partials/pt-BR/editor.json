@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "Substituir",
         "add": "Adicionar"
-      }
+      },
+      "advancedToggle": "Avançado: keyframes e curvas",
+      "presetsHintEasy": "Escolha uma animação: ela é aplicada na hora. Abra Avançado para ajustá-la."
     },
     "motionGenerator": {
       "title": "Gerador",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "Os efeitos em camadas de ajuste se aplicam a todos os itens das faixas acima.",
       "tabText": "Texto",
       "tabAnimation": "Animação",
-      "tabShape": "Forma"
+      "tabShape": "Forma",
+      "tabAnimate": "Animar"
     },
     "gifSection": {
       "animation": "Animação",
@@ -505,7 +508,8 @@
       "penToolHint": "Desenhe uma forma de caminho personalizada com a ferramenta caneta",
       "adjustmentLayer": "Camada de ajuste",
       "blankAdjustmentLayer": "Camada de ajuste em branco",
-      "presets": "Predefinições"
+      "presets": "Predefinições",
+      "keyframeEditorRailLabel": "Keyframes"
     },
     "textSection": {
       "sectionTitle": "Texto",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "Selecione um clipe para corrigir as cores",
-      "adjustmentLayerLabel": "Correção de cor"
+      "adjustmentLayerLabel": "Correção de cor",
+      "advancedToggle": "Avançado: rodas, curvas e efeitos"
     }
   }
 }

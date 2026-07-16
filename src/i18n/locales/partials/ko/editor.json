@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "교체",
         "add": "추가"
-      }
+      },
+      "advancedToggle": "고급: 키프레임 및 커브",
+      "presetsHintEasy": "애니메이션을 고르면 바로 적용됩니다. 세부 조정은 고급에서 할 수 있습니다."
     },
     "motionGenerator": {
       "title": "제너레이터",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "조정 레이어의 효과는 위쪽 트랙의 모든 항목에 적용됩니다.",
       "tabText": "텍스트",
       "tabAnimation": "애니메이션",
-      "tabShape": "도형"
+      "tabShape": "도형",
+      "tabAnimate": "애니메이트"
     },
     "gifSection": {
       "animation": "애니메이션",
@@ -505,7 +508,8 @@
       "penToolHint": "펜 도구로 사용자 지정 경로 도형 그리기",
       "adjustmentLayer": "조정 레이어",
       "blankAdjustmentLayer": "빈 조정 레이어",
-      "presets": "프리셋"
+      "presets": "프리셋",
+      "keyframeEditorRailLabel": "키프레임"
     },
     "textSection": {
       "sectionTitle": "텍스트",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "색 보정할 클립을 선택하세요",
-      "adjustmentLayerLabel": "색 보정"
+      "adjustmentLayerLabel": "색 보정",
+      "advancedToggle": "고급: 휠, 커브 및 효과"
     }
   }
 }

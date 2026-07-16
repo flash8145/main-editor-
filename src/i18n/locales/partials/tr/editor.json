@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "Değiştir",
         "add": "Ekle"
-      }
+      },
+      "advancedToggle": "Gelişmiş: anahtar kareler ve eğriler",
+      "presetsHintEasy": "Bir animasyon seç — hemen uygulanır. İnce ayar için Gelişmiş bölümünü aç."
     },
     "motionGenerator": {
       "title": "Üreteç",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "Ayar katmanlarındaki efektler, üst izlerdeki tüm öğelere uygulanır.",
       "tabText": "Metin",
       "tabAnimation": "Animasyon",
-      "tabShape": "Şekil"
+      "tabShape": "Şekil",
+      "tabAnimate": "Animasyon"
     },
     "gifSection": {
       "animation": "Animasyon",
@@ -505,7 +508,8 @@
       "penToolHint": "Kalem aracıyla özel bir yol şekli çizin",
       "adjustmentLayer": "Ayar katmanı",
       "blankAdjustmentLayer": "Boş ayar katmanı",
-      "presets": "Ön Ayarlar"
+      "presets": "Ön Ayarlar",
+      "keyframeEditorRailLabel": "Kareler"
     },
     "textSection": {
       "sectionTitle": "Metin",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "Renk düzenlemek için bir klip seçin",
-      "adjustmentLayerLabel": "Renk düzenleme"
+      "adjustmentLayerLabel": "Renk düzenleme",
+      "advancedToggle": "Gelişmiş: tekerler, eğriler ve efektler"
     }
   }
 }

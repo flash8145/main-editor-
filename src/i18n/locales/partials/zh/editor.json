@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "替换",
         "add": "添加"
-      }
+      },
+      "advancedToggle": "高级：关键帧与曲线",
+      "presetsHintEasy": "选择一个动画即可立即应用。如需微调，请打开高级。"
     },
     "motionGenerator": {
       "title": "生成器",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "调整图层上的效果会应用到上方所有轨道的项目。",
       "tabText": "文本",
       "tabAnimation": "动画",
-      "tabShape": "形状"
+      "tabShape": "形状",
+      "tabAnimate": "动画"
     },
     "gifSection": {
       "animation": "动画",
@@ -505,7 +508,8 @@
       "penToolHint": "使用钢笔工具绘制自定义路径形状",
       "adjustmentLayer": "调整图层",
       "blankAdjustmentLayer": "空白调整图层",
-      "presets": "预设"
+      "presets": "预设",
+      "keyframeEditorRailLabel": "关键帧"
     },
     "textSection": {
       "sectionTitle": "文本",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "选择要调色的剪辑",
-      "adjustmentLayerLabel": "调色"
+      "adjustmentLayerLabel": "调色",
+      "advancedToggle": "高级：色轮、曲线与效果"
     }
   }
 }

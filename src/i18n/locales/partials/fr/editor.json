@@ -50,7 +50,9 @@
       "applyMode": {
         "replace": "Remplacer",
         "add": "Ajouter"
-      }
+      },
+      "advancedToggle": "Avancé : images clés et courbes",
+      "presetsHintEasy": "Choisissez une animation : elle s'applique aussitôt. Ouvrez Avancé pour l'affiner."
     },
     "motionGenerator": {
       "title": "Générateur",
@@ -258,7 +260,8 @@
       "adjustmentLayerHint": "Les effets sur les calques de réglage s'appliquent à tous les éléments des pistes situées au-dessus.",
       "tabText": "Texte",
       "tabAnimation": "Animation",
-      "tabShape": "Forme"
+      "tabShape": "Forme",
+      "tabAnimate": "Animer"
     },
     "gifSection": {
       "animation": "Animation",
@@ -505,7 +508,8 @@
       "penToolHint": "Dessiner une forme de tracé personnalisée avec l'outil plume",
       "adjustmentLayer": "Calque d'ajustement",
       "blankAdjustmentLayer": "Calque d'ajustement vide",
-      "presets": "Préréglages"
+      "presets": "Préréglages",
+      "keyframeEditorRailLabel": "Images clés"
     },
     "textSection": {
       "sectionTitle": "Texte",
@@ -688,7 +692,8 @@
     },
     "colorPanel": {
       "emptyState": "Sélectionnez un clip à étalonner",
-      "adjustmentLayerLabel": "Étalonnage"
+      "adjustmentLayerLabel": "Étalonnage",
+      "advancedToggle": "Avancé : roues, courbes et effets"
     }
   }
 }

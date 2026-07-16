@@ -1,6 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vite-plus/test'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import type { VideoItem } from '@/types/timeline'
+import { useSettingsStore } from '@/features/editor/deps/settings'
 import { ColorGradePanel } from './index'
 
 const { VIDEO_ITEM } = vi.hoisted(() => ({
@@ -43,6 +44,7 @@ vi.mock('@/features/editor/deps/effects-contract', () => ({
       Add Effect
     </div>
   ),
+  ColorLooksSection: () => <div data-testid="color-looks-section">Looks</div>,
 }))
 
 vi.mock('@/features/editor/deps/timeline-contract', async (importOriginal) => {
@@ -69,6 +71,12 @@ vi.mock('@/features/editor/deps/timeline-contract', async (importOriginal) => {
 })
 
 describe('ColorGradePanel', () => {
+  beforeEach(() => {
+    // The dock's shape depends on the UI mode (ADR 001), so every test states
+    // the mode it means rather than riding on whatever the default is.
+    useSettingsStore.setState({ uiMode: 'pro' })
+  })
+
   it('renders the fitted color dock with effects and a persistent keyframes lane', async () => {
     render(<ColorGradePanel layout="dock" />)
 
@@ -88,6 +96,24 @@ describe('ColorGradePanel', () => {
     expect(keyframePanel).toHaveAttribute('data-open', 'true')
     expect(keyframePanel).toHaveAttribute('data-placement', 'side')
     expect(keyframePanel).toHaveAttribute('data-show-close', 'false')
+  })
+
+  it('leads the Easy dock with looks and defers the grading controls to Advanced', async () => {
+    useSettingsStore.setState({ uiMode: 'easy' })
+    render(<ColorGradePanel layout="dock" />)
+
+    // Looks are the surface; wheels/curves/effects/keyframes wait behind the
+    // disclosure — but they must still be reachable, not removed (ADR 001).
+    await screen.findByTestId('color-looks-section', {}, { timeout: 5000 })
+    expect(screen.queryByTestId('color-keyframes-lane')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('color-grade-section')).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { expanded: false }))
+
+    const gradeSection = await screen.findByTestId('color-grade-section', {}, { timeout: 5000 })
+    expect(gradeSection).toHaveAttribute('data-layout', 'dock')
+    expect(screen.getByTestId('color-keyframes-lane')).toBeInTheDocument()
+    expect(screen.getByRole('button', { expanded: true })).toBeInTheDocument()
   })
 
   it('keeps the sidebar variant stacked without the dock keyframes lane', async () => {
